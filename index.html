@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سامانه جامع الزهرا (مساجد و پایگاه‌ها)</title>
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#e9edf4;--bg2:#eef1f7;--sd:#c6ccd9;--sl:#fff;
+  --txt:#39435c;--muted:#7b879c;--line:#d7dce6;
+  --pri:#10b981;--pri2:#047857;
+  --ok:#22c55e;--warn:#f59e0b;--bad:#ef4444;--info:#0ea5e9;--gold:#f59e0b
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);min-height:100vh;font-family:Vazirmatn,'Segoe UI',Tahoma,sans-serif;font-size:14px}
+.neu{background:var(--bg);border-radius:20px;box-shadow:9px 9px 18px var(--sd),-9px -9px 18px var(--sl)}
+.neu-s{background:var(--bg);border-radius:14px;box-shadow:5px 5px 10px var(--sd),-5px -5px 10px var(--sl)}
+.neu-in{background:var(--bg);border-radius:14px;box-shadow:inset 4px 4px 8px var(--sd),inset -4px -4px 8px var(--sl)}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login-card{width:100%;max-width:420px;padding:34px 28px;border-radius:26px;text-align:center}
+.login-logo{width:80px;height:80px;display:grid;place-items:center;font-size:34px;border-radius:22px;margin:0 auto 18px}
+.login-card h1{margin:0 0 4px;font-size:1.25rem}.login-sub{color:var(--muted);font-size:.82rem;margin:0 0 22px}
+.login-card form{display:flex;flex-direction:column;gap:14px;text-align:right}
+.login-hint{margin-top:20px;padding:14px;background:var(--bg2);border-radius:14px;text-align:right;font-size:.73rem;color:var(--muted);line-height:2}
+#loginErr{color:var(--bad);font-size:.8rem;min-height:18px;text-align:center}
+.wrap{display:grid;grid-template-columns:260px 1fr;gap:22px;padding:22px;min-height:100vh;max-width:1600px;margin:0 auto}
+@media(max-width:960px){.wrap{grid-template-columns:1fr;padding:14px;gap:14px}}
+.side{position:sticky;top:22px;height:calc(100vh - 44px);padding:18px 14px;display:flex;flex-direction:column;gap:14px}
+@media(max-width:960px){.side{position:static;height:auto}}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 6px}
+.brand .logo{width:46px;height:46px;display:grid;place-items:center;font-size:22px;border-radius:14px}
+.brand b{display:block;font-size:.86rem}.brand small{color:var(--muted);font-size:.68rem;display:block;margin-top:2px}
+nav{display:flex;flex-direction:column;gap:4px;overflow:auto;flex:1}
+.nav-btn{display:flex;align-items:center;gap:10px;border:0;cursor:pointer;font-family:inherit;font-size:.8rem;color:var(--txt);padding:9px 12px;border-radius:13px;background:var(--bg);box-shadow:4px 4px 9px var(--sd),-4px -4px 9px var(--sl);transition:.15s;text-align:right}
+.nav-btn span{font-size:1rem}.nav-btn:hover{color:var(--pri)}
+.nav-btn.active{color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));box-shadow:5px 5px 12px #bfc6d6,-4px -4px 10px var(--sl)}
+.side-foot{display:flex;flex-direction:column;gap:8px}
+.btn{border:0;cursor:pointer;border-radius:14px;padding:10px 16px;font-family:inherit;font-size:.84rem;background:var(--bg);color:var(--txt);box-shadow:4px 4px 9px var(--sd),-4px -4px 9px var(--sl);transition:.15s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{color:var(--pri)}.btn:active{box-shadow:inset 3px 3px 7px var(--sd),inset -3px -3px 7px var(--sl)}
+.btn.primary{color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));box-shadow:5px 5px 12px #c0c7d7,-4px -4px 10px var(--sl)}
+.btn.primary:hover{color:#fff;filter:brightness(1.05)}
+.btn.ok{color:#fff;background:linear-gradient(135deg,#34d399,#22c55e)}
+.btn.bad{color:#fff;background:linear-gradient(135deg,#f87171,#ef4444)}
+.btn.warn{color:#fff;background:linear-gradient(135deg,#fbbf24,#f59e0b)}
+.btn.gold{color:#fff;background:linear-gradient(135deg,#fbbf24,#d97706)}
+.btn.sm{padding:6px 11px;font-size:.74rem;border-radius:11px}
+.btn.full{width:100%}
+main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.topbar{display:flex;align-items:center;gap:14px;padding:12px 16px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:8px;padding:9px 14px;flex:1;min-width:200px}
+.search input{border:0;background:transparent;outline:none;font-family:inherit;font-size:.86rem;color:var(--txt);width:100%}
+.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{padding:8px 14px;font-size:.76rem;color:var(--muted);border-radius:12px}
+.user-chip{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:12px}
+.user-chip .av{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));font-weight:700;font-size:.85rem}
+.card{padding:20px;margin-bottom:18px;border-radius:20px}
+.card h3{margin:0 0 16px;font-size:.98rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:18px}
+.stat{padding:14px 16px;border-radius:20px}
+.stat .i{font-size:1.25rem}.stat .t{font-size:.72rem;color:var(--muted);margin-top:8px}
+.stat .v{font-size:1.3rem;font-weight:700;margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:800px){.grid3{grid-template-columns:1fr}}
+.fld{display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--muted)}
+.fld.full{grid-column:1/-1}
+.fld input,.fld select,.fld textarea{border:0;outline:none;font-family:inherit;font-size:.85rem;color:var(--txt);padding:10px 13px;border-radius:13px;background:var(--bg);box-shadow:inset 4px 4px 8px var(--sd),inset -4px -4px 8px var(--sl)}
+.fld input:focus,.fld select:focus,.fld textarea:focus{box-shadow:inset 4px 4px 8px var(--sd),inset -4px -4px 8px var(--sl),0 0 0 2px #a7e4c9}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px}
+.tbl{width:100%;border-collapse:separate;border-spacing:0 7px;font-size:.82rem}
+.tbl th{font-weight:600;color:var(--muted);text-align:right;padding:4px 12px;font-size:.74rem;white-space:nowrap}
+.tbl td{background:var(--bg2);padding:10px 12px;vertical-align:middle}
+.tbl tbody tr td:first-child{border-radius:0 14px 14px 0}
+.tbl tbody tr td:last-child{border-radius:14px 0 0 14px}
+.tbl tbody tr:hover td{background:#e6eaf3}
+.tbl-wrap{overflow-x:auto}
+.badge{display:inline-block;padding:4px 10px;border-radius:10px;font-size:.7rem;font-weight:600}
+.b-ok{background:#dcfce7;color:#15803d}.b-bad{background:#fee2e2;color:#b91c1c}
+.b-warn{background:#fef3c7;color:#b45309}.b-info{background:#e0f2fe;color:#0369a1}
+.b-mut{background:#e5e9f2;color:#5b6478}.b-pri{background:#d1fae5;color:#065f46}
+.b-gold{background:#fef3c7;color:#92400e}
+.modal-bg{position:fixed;inset:0;background:rgba(57,67,92,.32);backdrop-filter:blur(4px);display:grid;place-items:center;padding:18px;z-index:99}
+.modal{width:100%;max-width:640px;max-height:90vh;overflow:auto;padding:22px;border-radius:22px;animation:pop .18s ease;background:var(--bg)}
+.modal.wide{max-width:900px}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-head h3{margin:0;font-size:1rem}
+.modal-foot{display:flex;gap:10px;justify-content:flex-start;margin-top:20px;flex-wrap:wrap}
+.icon-btn{border:0;cursor:pointer;width:34px;height:34px;border-radius:11px;background:var(--bg);color:var(--muted);box-shadow:3px 3px 7px var(--sd),-3px -3px 7px var(--sl);font-family:inherit}
+#toasts{position:fixed;bottom:22px;left:22px;display:flex;flex-direction:column;gap:10px;z-index:200;max-width:340px}
+.toast{padding:12px 18px;border-radius:14px;font-size:.82rem;background:var(--bg);box-shadow:6px 6px 14px var(--sd),-6px -6px 14px var(--sl);animation:slide .2s ease}
+@keyframes slide{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast.ok{border-right:4px solid var(--ok)}.toast.bad{border-right:4px solid var(--bad)}
+.toast.warn{border-right:4px solid var(--warn)}.toast.info{border-right:4px solid var(--info)}
+.empty{text-align:center;color:var(--muted);padding:34px;font-size:.85rem}
+.hint{font-size:.75rem;color:var(--muted);line-height:1.9}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:12px;font-size:.76rem;background:var(--bg);box-shadow:3px 3px 7px var(--sd),-3px -3px 7px var(--sl);cursor:pointer}
+.chip.on{color:#fff;background:linear-gradient(135deg,var(--pri),var(--pri2));box-shadow:none}
+.tabs-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab-chip{padding:8px 14px;border:0;cursor:pointer;font-family:inherit;font-size:.8rem;border-radius:11px;background:var(--bg);color:var(--muted);box-shadow:3px 3px 7px var(--sd),-3px -3px 7px var(--sl)}
+.tab-chip.active{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;box-shadow:none}
+.msg-item{padding:14px 16px;border-radius:16px;margin-bottom:10px;background:var(--bg2);border-right:4px solid var(--line)}
+.msg-item.urgent{border-right-color:var(--bad)}.msg-item.high{border-right-color:var(--warn)}
+.msg-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.msg-body{font-size:.84rem;line-height:1.9;white-space:pre-wrap}
+.msg-meta{font-size:.72rem;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap}
+.checklist{max-height:280px;overflow:auto;padding:8px;background:var(--bg2);border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media(max-width:640px){.checklist{grid-template-columns:1fr}}
+.checklist label{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:8px;font-size:.8rem;cursor:pointer}
+.checklist label:hover{background:var(--bg)}
+.checklist input{accent-color:var(--pri)}
+.lock-notice{padding:10px 14px;background:#fef3c7;border-radius:12px;font-size:.76rem;color:#92400e;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.lock-notice::before{content:'🔒';font-size:1.1rem}
+.welcome{padding:34px 28px;text-align:center;border-radius:22px;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:2px dashed #6ee7b7;margin-bottom:20px}
+.welcome h2{margin:0 0 8px;font-size:1.2rem}
+.welcome .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:20px}
+.welcome .step{background:#fff;padding:14px;border-radius:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.welcome .step .n{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;display:grid;place-items:center;margin:0 auto 8px;font-weight:700}
+.welcome .step .t{font-size:.82rem;font-weight:600}
+.welcome .step .d{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.6}
+#printSheet{display:none}
+@media print{
+  @page{size:A4 portrait;margin:8mm}
+  html,body{background:#fff!important;margin:0;padding:0}
+  #app,#loginScreen,.modal-bg,#toasts{display:none!important}
+  #printSheet{display:block!important;width:194mm;direction:rtl;color:#000;font-family:Vazirmatn,Tahoma,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ps-title{font-size:14pt;font-weight:700;text-align:center;margin-bottom:1mm}
+  .ps-sub{font-size:9pt;text-align:center;color:#555;margin-bottom:3mm}
+  .ps-info{font-size:9pt;margin-bottom:2mm;display:flex;gap:5mm;flex-wrap:wrap;padding-bottom:1.5mm;border-bottom:.3mm solid #000}
+  .ps-info b{font-weight:700}
+  .ps-table{width:100%;border-collapse:collapse;font-size:9pt}
+  .ps-table th,.ps-table td{border:.2mm solid #333;padding:1.2mm 1.5mm;text-align:center}
+  .ps-table th{background:#e8e8e8;font-weight:700}
+  .ps-table tfoot td{background:#f3f3f3;font-weight:700}
+  .ps-foot{margin-top:3mm;border-top:.3mm solid #000;padding-top:1.5mm;display:flex;justify-content:space-between;align-items:flex-end;font-size:8pt}
+  .ps-sign{min-width:55mm;border-bottom:.2mm dotted #333;height:5mm;display:inline-block}
+  .ps-legend{font-size:7pt;color:#444;margin-top:1mm}
+}
+</style>
+</head>
+<body>
+
+<!-- ================== LOGIN ================== -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-card neu">
+    <div class="login-logo neu-in">🕌</div>
+    <h1>سامانه جامع الزهرا</h1>
+    <p class="login-sub">مساجد و پایگاه‌های مقاومت بسیج</p>
+    <form id="loginForm" onsubmit="doLogin(event)">
+      <label class="fld"><span>نام کاربری</span><input id="loginUser" autocomplete="username" required></label>
+      <label class="fld"><span>رمز عبور</span><input id="loginPass" type="password" autocomplete="current-password" required></label>
+      <div id="loginErr"></div>
+      <button class="btn primary full" type="submit">🔐 ورود به سامانه</button>
+    </form>
+    <div class="login-hint">
+      <p style="margin:0 0 6px;font-weight:600;color:var(--txt)">حساب‌های پیش‌فرض:</p>
+      <small>🔑 سوپر ادمین: <b>admin</b> / <b>admin</b></small><br>
+      <small>🎖️ فرمانده پایگاه: <b>commander</b> / <b>1234</b></small><br>
+      <small>📚 مسئول فرهنگی: <b>cultural</b> / <b>1234</b></small><br>
+      <small>👤 عضو نمونه: <b>member1</b> / <b>1234</b></small>
+    </div>
+  </div>
+</div>
+
+<!-- ================== APP ================== -->
+<div id="app" class="wrap" style="display:none">
+  <aside class="side neu">
+    <div class="brand">
+      <div class="logo neu-in">🕌</div>
+      <div><b id="brandName">سامانه جامع الزهرا</b><small id="brandYear">—</small></div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="side-foot">
+      <button class="btn full" onclick="exportJSON()">⬇️ پشتیبان JSON</button>
+      <button class="btn full bad" onclick="doLogout()">🚪 خروج از حساب</button>
+    </div>
+  </aside>
+  <main>
+    <header class="topbar neu">
+      <div class="search neu-in"><span>🔎</span><input id="q" placeholder="جستجو در سامانه..."></div>
+      <div class="top-actions">
+        <span class="pill neu-s" id="datePill"></span>
+        <div class="user-chip neu-s"><div class="av" id="avatar">؟</div><div><b id="userName" style="font-size:.83rem">—</b><small style="display:block;color:var(--muted);font-size:.7rem" id="userRole">—</small></div></div>
+      </div>
+    </header>
+    <section id="view"></section>
+  </main>
+</div>
+
+<div id="printSheet"></div>
+<div id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+/* ==========================================================
+   ابزار پایه
+   ========================================================== */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const isoToday = () => new Date().toISOString().slice(0,10);
+const faDate = d => { if(!d) return '—'; try{ return new Date(d).toLocaleDateString('fa-IR'); }catch(e){ return d; } };
+const money = n => (Number(n)||0).toLocaleString('fa-IR');
+const num = n => (Number(n)||0).toLocaleString('fa-IR');
+const toFa = n => String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const faMonth = iso => { // '2025-04' → 'فروردین ۱۴۰۴'
+  if(!iso) return '—';
+  const [y,m] = iso.split('-').map(Number);
+  try{ return new Date(y, m-1, 1).toLocaleDateString('fa-IR',{year:'numeric',month:'long'}); }catch(e){ return iso; }
+};
+const isActive = (m) => m.active !== false;
+
+const LS='zahra_system_v1';
+const SESSION='zahra_session_v1';
+let DB={}, CU=null;
+
+const ROLES = {
+  superadmin:{label:'سوپر ادمین', color:'#7c3aed'},
+  commander:{label:'فرمانده پایگاه', color:'#10b981'},
+  cultural:{label:'مسئول فرهنگی', color:'#0ea5e9'},
+  member:{label:'عضو', color:'#f59e0b'}
+};
+
+/* ==========================================================
+   دیتابیس
+   ========================================================== */
+function emptyDB(){
+  return {
+    settings:{
+      systemName:'سامانه جامع الزهرا',
+      baseName:'پایگاه مقاومت بسیج الزهرا (س)',
+      mosqueName:'مسجد الزهرا (س)',
+      year:'1404-1405',
+      address:'',
+      phone:'',
+      commanderName:''
+    },
+    users:[
+      {id:'u_super', username:'admin', password:'admin', role:'superadmin', name:'سوپر ادمین', active:true}
+    ],
+    members:[],
+    mosqueActivities:[],
+    baseActivities:[],
+    meetings:[],
+    honors:[],
+    announcements:[],
+    events:[],
+    funding:[]
+  };
+}
+
+function save(){ try{ localStorage.setItem(LS, JSON.stringify(DB)); }catch(e){ toast('خطا در ذخیره‌سازی','bad'); } }
+
+function load(){
+  const raw = localStorage.getItem(LS);
+  if(raw){ try{ DB = JSON.parse(raw); }catch(e){ DB=null; } }
+  if(!DB || !DB.users){ DB = emptyDB(); }
+  migrate();
+  if(DB.members.length===0){ seedData(); save(); }
+}
+
+function migrate(){
+  const def = emptyDB();
+  Object.keys(def).forEach(k=>{ if(!(k in DB)) DB[k]=def[k]; });
+  if(!DB.users.find(u=>u.role==='superadmin')){
+    DB.users.push({id:'u_super', username:'admin', password:'admin', role:'superadmin', name:'سوپر ادمین', active:true});
+  }
+}
+
+/* ==========================================================
+   داده‌های نمونه (Seed)
+   ========================================================== */
+function seedData(){
+  // --- اعضای فعال ---
+  const ACTIVE = [
+    {name:'فاطمه محمدی', mobile:'09121110001', birth:'1380-03-15', edu:'کارشناسی', job:'معلم'},
+    {name:'زهرا رضایی', mobile:'09121110002', birth:'1381-07-22', edu:'کارشناسی', job:'دانشجو'},
+    {name:'مریم حسینی', mobile:'09121110003', birth:'1379-11-03', edu:'کارشناسی ارشد', job:'کارمند'},
+    {name:'معصومه کریمی', mobile:'09121110004', birth:'1382-01-10', edu:'دیپلم', job:'خانه‌دار'},
+    {name:'نرگس احمدی', mobile:'09121110005', birth:'1380-05-08', edu:'کارشناسی', job:'پرستار'},
+    {name:'زینب موسوی', mobile:'09121110006', birth:'1381-09-19', edu:'حوزوی', job:'طلبه'},
+    {name:'سمیه نوری', mobile:'09121110007', birth:'1379-02-25', edu:'کارشناسی', job:'معلم'},
+    {name:'الهام صادقی', mobile:'09121110008', birth:'1382-06-14', edu:'دانشجو', job:'دانشجو'},
+    {name:'خدیجه عباسی', mobile:'09121110009', birth:'1378-08-30', edu:'کارشناسی ارشد', job:'مدیر'},
+    {name:'رقیه جعفری', mobile:'09121110010', birth:'1381-12-05', edu:'کارشناسی', job:'کارمند'},
+    {name:'سکینه شریفی', mobile:'09121110011', birth:'1380-04-17', edu:'دیپلم', job:'خانه‌دار'},
+    {name:'نسیبه کاظمی', mobile:'09121110012', birth:'1382-10-21', edu:'دانشجو', job:'دانشجو'}
+  ];
+  // --- اعضای عادی ---
+  const REGULAR = [
+    {name:'علی احمدی', mobile:'09122220001', birth:'1375-01-12'},
+    {name:'محمد رضایی', mobile:'09122220002', birth:'1376-05-20'},
+    {name:'حسین مرادی', mobile:'09122220003', birth:'1378-09-08'},
+    {name:'رضا قاسمی', mobile:'09122220004', birth:'1377-11-30'},
+    {name:'مهدی یوسفی', mobile:'09122220005', birth:'1379-02-14'},
+    {name:'حسن طاهری', mobile:'09122220006', birth:'1376-07-25'},
+    {name:'امیر اکبری', mobile:'09122220007', birth:'1378-03-18'},
+    {name:'سعید هاشمی', mobile:'09122220008', birth:'1375-10-04'},
+    {name:'مرتضی علوی', mobile:'09122220009', birth:'1379-08-22'},
+    {name:'مجتبی کریمی', mobile:'09122220010', birth:'1377-04-16'},
+    {name:'حمید محمدی', mobile:'09122220011', birth:'1378-12-01'},
+    {name:'ابراهیم حسینی', mobile:'09122220012', birth:'1376-06-11'},
+    {name:'جواد نوری', mobile:'09122220013', birth:'1379-01-27'},
+    {name:'یاسر صادقی', mobile:'09122220014', birth:'1377-09-15'},
+    {name:'کاظم شریفی', mobile:'09122220015', birth:'1375-03-06'},
+    {name:'مریم صالحی', mobile:'09122220016', birth:'1381-05-09'},
+    {name:'سارا مهدوی', mobile:'09122220017', birth:'1380-11-19'},
+    {name:'حلیمه رحیمی', mobile:'09122220018', birth:'1382-07-03'}
+  ];
+
+  const today = new Date();
+  const joinDate = (y,m,d)=> new Date(y, m-1, d).toISOString().slice(0,10);
+
+  ACTIVE.forEach((m,i)=>{
+    DB.members.push({
+      id:'m_a'+(i+1), name:m.name, nid:'', mobile:m.mobile,
+      memberType:'active', birthDate:m.birth, joinDate: joinDate(1402, 6, 1),
+      education:m.edu, job:m.job, address:'', skills:'', notes:'', active:true
+    });
+  });
+  REGULAR.forEach((m,i)=>{
+    DB.members.push({
+      id:'m_r'+(i+1), name:m.name, nid:'', mobile:m.mobile,
+      memberType:'regular', birthDate:m.birth, joinDate: joinDate(1402, 8, 1),
+      education:'', job:'', address:'', skills:'', notes:'', active:true
+    });
+  });
+
+  // --- کاربران نمونه ---
+  DB.users.push(
+    {id:'u_cmd', username:'commander', password:'1234', role:'commander', name:'فرمانده پایگاه', active:true},
+    {id:'u_cul', username:'cultural', password:'1234', role:'cultural', name:'مسئول فرهنگی', active:true},
+    {id:'u_m1', username:'member1', password:'1234', role:'member', name:'فاطمه محمدی', memberId:'m_a1', active:true}
+  );
+
+  // --- فعالیت‌های فرهنگی مسجد ---
+  const M_TYPES = [
+    {t:'نماز جماعت', h:1, loc:'مسجد الزهرا'},
+    {t:'جلسه قرآن کریم', h:1.5, loc:'مسجد الزهرا'},
+    {t:'جلسه دعای کمیل', h:2, loc:'مسجد الزهرا'},
+    {t:'هیئت هفتگی', h:2, loc:'مسجد الزهرا'},
+    {t:'مراسم دعای توسل', h:2, loc:'مسجد الزهرا'},
+    {t:'کلاس احکام', h:1.5, loc:'مسجد الزهرا'},
+    {t:'مراسم مناسبت مذهبی', h:3, loc:'مسجد الزهرا'}
+  ];
+  const B_TYPES = [
+    {t:'حلقه صالحین', h:2, loc:'پایگاه الزهرا'},
+    {t:'جلسه هفتگی پایگاه', h:2, loc:'پایگاه الزهرا'},
+    {t:'مسابقات فرهنگی', h:3, loc:'پایگاه الزهرا'},
+    {t:'کارگاه آموزشی', h:4, loc:'پایگاه الزهرا'},
+    {t:'اردوی جهادی', h:8, loc:'منطقه'},
+    {t:'برنامه ورزشی', h:2, loc:'سالن ورزشی'},
+    {t:'اردوی راهیان نور', h:12, loc:'منطقه جنوب'}
+  ];
+
+  const allIds = DB.members.map(m=>m.id);
+  const pickParticipants = (rate)=>allIds.filter(()=>Math.random()<rate);
+
+  // 2 ماه اخیر
+  for(let dayBack=0; dayBack<60; dayBack++){
+    const d = new Date(today); d.setDate(d.getDate()-dayBack);
+    const iso = d.toISOString().slice(0,10);
+    const dow = d.getDay(); // 0=Sun, 4=Thu, 5=Fri
+
+    // نماز جماعت روزانه (فقط در روزهای هفته)
+    if(dow !== 5){ // غیر جمعه
+      const typ = M_TYPES[0];
+      DB.mosqueActivities.push({
+        id:uid(), title:typ.t, type:typ.t, date:iso, hours:typ.h, location:typ.loc,
+        participants:pickParticipants(0.35), by:'سوپر ادمین', notes:''
+      });
+    }
+    // سایر برنامه‌ها با احتمال
+    if(Math.random()<0.35){
+      const typ = M_TYPES[1+Math.floor(Math.random()*(M_TYPES.length-1))];
+      DB.mosqueActivities.push({
+        id:uid(), title:typ.t, type:typ.t, date:iso, hours:typ.h, location:typ.loc,
+        participants:pickParticipants(0.5), by:'مسئول فرهنگی', notes:''
+      });
+    }
+    if(Math.random()<0.3){
+      const typ = B_TYPES[Math.floor(Math.random()*B_TYPES.length)];
+      DB.baseActivities.push({
+        id:uid(), title:typ.t, type:typ.t, date:iso, hours:typ.h, location:typ.loc,
+        participants:pickParticipants(0.55), by:'مسئول فرهنگی', notes:''
+      });
+    }
+    // جلسه هفتگی پایگاه (پنجشنبه‌ها)
+    if(dow === 4){
+      DB.meetings.push({
+        id:uid(), date:iso, title:'جلسه هفتگی پایگاه الزهرا',
+        topic:'برنامه‌ریزی و هماهنگی فعالیت‌ها',
+        attendees:pickParticipants(0.7), notes:'جلسه با حضور اعضای فعال برگزار شد.',
+        by:'فرمانده پایگاه'
+      });
+    }
+  }
+
+  // --- افتخارات ---
+  const honorTitles = [
+    ['مقام اول مسابقات قرآنی ناحیه','ناحیه','1403-08-12'],
+    ['عضو نمونه پایگاه در هفته بسیج','پایگاه','1403-09-05'],
+    ['رتبه برتر جشنواره فرهنگی هنری','شهرستان','1403-10-18'],
+    ['تقدیر فرماندهی ناحیه','ناحیه','1403-11-02'],
+    ['مقام سوم مسابقات ورزشی','استان','1403-11-20']
+  ];
+  honorTitles.forEach((h,i)=>{
+    DB.honors.push({
+      id:uid(), memberId: allIds[i % allIds.length], title:h[0], level:h[1],
+      date:h[2], description:'', by:'فرمانده پایگاه'
+    });
+  });
+
+  // --- اطلاعیه‌ها ---
+  const anns = [
+    {t:'برگزاری جلسه هفتگی', b:'جلسه هفتگی پایگاه روز پنجشنبه ساعت ۱۶ در محل پایگاه برگزار می‌گردد. حضور اعضای فعال الزامی است.', p:'high'},
+    {t:'اردوی راهیان نور', b:'ثبت‌نام اردوی راهیان نور آغاز شد. علاقه‌مندان جهت ثبت‌نام به مسئول فرهنگی مراجعه نمایند.', p:'urgent'},
+    {t:'مسابقه کتابخوانی', b:'مسابقه کتابخوانی با موضوع سیره شهدا برگزار می‌شود. مهلت ارسال آثار پایان ماه جاری است.', p:'normal'},
+    {t:'جلسه حلقه صالحین', b:'حلقه صالحین خواهران روزهای دوشنبه ساعت ۱۷ در مسجد الزهرا برگزار می‌شود.', p:'normal'}
+  ];
+  anns.forEach((a,i)=>{
+    const d = new Date(today); d.setDate(d.getDate()-(i*3+1));
+    DB.announcements.push({
+      id:uid(), title:a.t, body:a.b, priority:a.p,
+      date:d.toISOString().slice(0,10), by:'مسئول فرهنگی'
+    });
+  });
+
+  // --- تقویم ---
+  const events = [
+    {t:'ولادت حضرت زهرا (س)', ty:'مناسبت', off:5},
+    {t:'جلسه اولیا و مربیان', ty:'جلسه', off:10},
+    {t:'اردوی راهیان نور', ty:'اردو', off:15},
+    {t:'شب قدر', ty:'مناسبت', off:20},
+    {t:'مسابقات ورزشی پایگاه', ty:'برنامه', off:25}
+  ];
+  events.forEach(e=>{
+    const d = new Date(today); d.setDate(d.getDate()+e.off);
+    DB.events.push({id:uid(), title:e.t, type:e.ty, date:d.toISOString().slice(0,10), by:'سوپر ادمین'});
+  });
+
+  // --- مالی ---
+  const fundings = [
+    {t:'کمک‌های مردمی', ty:'income', amt:5000000, off:-20},
+    {t:'خرید اقلام فرهنگی', ty:'expense', amt:1200000, off:-15},
+    {t:'کمک ناحیه', ty:'income', amt:3000000, off:-10},
+    {t:'هزینه اردو', ty:'expense', amt:2500000, off:-5},
+    {t:'کمک خیرین', ty:'income', amt:4000000, off:-2}
+  ];
+  fundings.forEach(f=>{
+    const d = new Date(today); d.setDate(d.getDate()+f.off);
+    DB.funding.push({
+      id:uid(), title:f.t, type:f.ty, amount:f.amt,
+      date:d.toISOString().slice(0,10), description:'', by:'سوپر ادمین'
+    });
+  });
+}
+
+/* ==========================================================
+   دسترسی‌ها
+   ========================================================== */
+const PERMS = {
+  editMembers: r=>['superadmin','commander'].includes(r),
+  editActivities: r=>['superadmin','commander','cultural'].includes(r),
+  editMeetings: r=>['superadmin','commander','cultural'].includes(r),
+  editHonors: r=>['superadmin','commander','cultural'].includes(r),
+  editAnnounce: r=>['superadmin','commander','cultural'].includes(r),
+  editCalendar: r=>['superadmin','commander','cultural'].includes(r),
+  editFunding: r=>['superadmin','commander'].includes(r),
+  viewReports: r=>['superadmin','commander','cultural'].includes(r),
+  manageUsers: r=>r==='superadmin',
+  editSettings: r=>['superadmin','commander'].includes(r),
+  resetDB: r=>r==='superadmin'
+};
+function can(p){ return CU ? (PERMS[p]?.(CU.role)||false) : false; }
+function requireRole(role,msg){
+  if(!CU || CU.role!==role){ toast(msg||'⛔ دسترسی ندارید','bad'); return false; }
+  return true;
+}
+
+/* ==========================================================
+   Toast & Modal
+   ========================================================== */
+function toast(msg, type='ok'){
+  const d = document.createElement('div');
+  d.className='toast '+type; d.textContent=msg;
+  $('#toasts').appendChild(d);
+  setTimeout(()=>{ d.style.opacity='0'; d.style.transition='.3s'; setTimeout(()=>d.remove(),320); }, 3000);
+}
+
+function modal(title, html, onOk, okText='ذخیره', wide){
+  const m = document.createElement('div');
+  m.className='modal-bg';
+  m.innerHTML = `<div class="modal ${wide?'wide':''} neu">
+    <div class="modal-head"><h3>${title}</h3><button class="icon-btn" data-close>✕</button></div>
+    <div class="modal-body">${html}</div>
+    <div class="modal-foot">
+      ${onOk?`<button class="btn primary" data-ok>${okText}</button>`:''}
+      <button class="btn" data-close>بستن</button>
+    </div>
+  </div>`;
+  document.body.appendChild(m);
+  m.addEventListener('click', e=>{
+    if(e.target===m || e.target.closest('[data-close]')) m.remove();
+    if(e.target.closest('[data-ok]')){
+      if(onOk && onOk(m)===false) return;
+      m.remove();
+    }
+  });
+  const f=m.querySelector('input,select,textarea'); if(f) setTimeout(()=>f.focus(),60);
+  return m;
+}
+
+/* ==========================================================
+   Auth
+   ========================================================== */
+function doLogin(e){
+  e.preventDefault();
+  const u = $('#loginUser').value.trim();
+  const p = $('#loginPass').value;
+  const user = DB.users.find(x=>x.username===u && x.password===p);
+  if(!user){ $('#loginErr').textContent='نام کاربری یا رمز اشتباه است.'; return; }
+  if(!user.active){ $('#loginErr').textContent='حساب غیرفعال است.'; return; }
+  CU = user;
+  localStorage.setItem(SESSION, user.id);
+  showApp();
+}
+function doLogout(){
+  if(!confirm('از حساب خارج می‌شوید؟')) return;
+  CU=null; localStorage.removeItem(SESSION);
+  $('#loginScreen').style.display='';
+  $('#app').style.display='none';
+  $('#loginUser').value=''; $('#loginPass').value=''; $('#loginErr').textContent='';
+}
+function showApp(){
+  $('#loginScreen').style.display='none';
+  $('#app').style.display='';
+  $('#brandName').textContent = DB.settings.baseName || 'سامانه جامع الزهرا';
+  $('#brandYear').textContent = 'سال ' + (DB.settings.year||'—');
+  $('#userName').textContent = CU.name;
+  $('#userRole').textContent = ROLES[CU.role].label;
+  $('#avatar').textContent = CU.name.charAt(0);
+  $('#datePill').textContent = new Date().toLocaleDateString('fa-IR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  state.tab = firstTabForRole();
+  state.page = 1; state.q = '';
+  render();
+}
+
+/* ==========================================================
+   Navigation
+   ========================================================== */
+const state = {tab:'dash', q:'', memberType:'all', page:1};
+
+const TABS = {
+  superadmin:[
+    ['dash','📊','داشبورد'],
+    ['members_active','🌟','اعضای فعال'],
+    ['members_regular','👥','اعضای عادی'],
+    ['mosque','🕌','فرهنگی مسجد'],
+    ['base','🏴','فرهنگی پایگاه'],
+    ['meetings','🤝','جلسات هفتگی'],
+    ['attendance','✅','حضور در جلسات'],
+    ['honors','🏆','افتخارات'],
+    ['report','📈','گزارش ماهانه'],
+    ['funding','💰','مالی پایگاه'],
+    ['announce','📢','اطلاعیه‌ها'],
+    ['calendar','📅','تقویم'],
+    ['users','🔐','کاربران'],
+    ['settings','⚙️','تنظیمات']
+  ],
+  commander:[
+    ['dash','📊','داشبورد'],
+    ['members_active','🌟','اعضای فعال'],
+    ['members_regular','👥','اعضای عادی'],
+    ['mosque','🕌','فرهنگی مسجد'],
+    ['base','🏴','فرهنگی پایگاه'],
+    ['meetings','🤝','جلسات هفتگی'],
+    ['attendance','✅','حضور در جلسات'],
+    ['honors','🏆','افتخارات'],
+    ['report','📈','گزارش ماهانه'],
+    ['funding','💰','مالی پایگاه'],
+    ['announce','📢','اطلاعیه‌ها'],
+    ['calendar','📅','تقویم'],
+    ['settings','⚙️','تنظیمات']
+  ],
+  cultural:[
+    ['dash','📊','داشبورد'],
+    ['members_active','🌟','اعضای فعال'],
+    ['mosque','🕌','فرهنگی مسجد'],
+    ['base','🏴','فرهنگی پایگاه'],
+    ['meetings','🤝','جلسات هفتگی'],
+    ['attendance','✅','حضور در جلسات'],
+    ['honors','🏆','افتخارات'],
+    ['report','📈','گزارش ماهانه'],
+    ['announce','📢','اطلاعیه‌ها'],
+    ['calendar','📅','تقویم']
+  ],
+  member:[
+    ['mdash','🏠','داشبورد من'],
+    ['mprofile','👤','پروفایل من'],
+    ['mactivities','📋','فعالیت‌های من'],
+    ['mannounce','📢','اطلاعیه‌ها'],
+    ['mcalendar','📅','تقویم']
+  ]
+};
+
+function firstTabForRole(){ return (TABS[CU.role]||[['dash']])[0][0]; }
+function go(tab){ state.tab=tab; state.page=1; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function render(){
+  const tabs = TABS[CU.role] || [];
+  $('#nav').innerHTML = tabs.map(([k,i,t])=>{
+    return `<button class="nav-btn ${state.tab===k?'active':''}" onclick="go('${k}')"><span>${i}</span>${t}</button>`;
+  }).join('');
+
+  const map = {
+    dash:vDash, members_active:()=>vMembers('active'), members_regular:()=>vMembers('regular'),
+    mosque:()=>vActivities('mosque'), base:()=>vActivities('base'),
+    meetings:vMeetings, attendance:vAttendance, honors:vHonors,
+    report:vReport, funding:vFunding, announce:vAnnounce, calendar:vCalendar,
+    users:vUsers, settings:vSettings,
+    mdash:vMemberDash, mprofile:vMemberProfile, mactivities:vMemberActivities,
+    mannounce:vMemberAnnounce, mcalendar:vCalendar
+  };
+  $('#view').innerHTML = (map[state.tab] || vDash)();
+}
+
+/* ==========================================================
+   Helpers
+   ========================================================== */
+const getMember = id => DB.members.find(m=>m.id===id);
+const memberName = id => getMember(id)?.name || '—';
+const activeMembers = () => DB.members.filter(m=>isActive(m) && m.memberType==='active');
+const regularMembers = () => DB.members.filter(m=>isActive(m) && m.memberType==='regular');
+
+function memberTypeBadge(t){
+  return t==='active' ? '<span class="badge b-pri">🌟 فعال</span>' : '<span class="badge b-mut">👤 عادی</span>';
+}
+function priorityBadge(p){
+  return p==='urgent' ? '<span class="badge b-bad">فوری</span>'
+       : p==='high' ? '<span class="badge b-warn">مهم</span>'
+       : '<span class="badge b-mut">عادی</span>';
+}
+function levelBadge(l){
+  const map={'پایگاه':'b-mut','ناحیه':'b-info','شهرستان':'b-warn','استان':'b-gold','کشوری':'b-bad'};
+  return `<span class="badge ${map[l]||'b-mut'}">${esc(l)}</span>`;
+}
+
+function monthOptions(count=6){
+  const out=[]; const now=new Date();
+  for(let i=0;i<count;i++){
+    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    const iso = d.toISOString().slice(0,7);
+    const label = d.toLocaleDateString('fa-IR',{year:'numeric',month:'long'});
+    out.push(`<option value="${iso}">${label}</option>`);
+  }
+  return out.join('');
+}
+
+/* ==========================================================
+   Dashboard
+   ========================================================== */
+function vDash(){
+  const today = isoToday();
+  const month = today.slice(0,7);
+  const actA = activeMembers().length;
+  const actR = regularMembers().length;
+  const mActs = DB.mosqueActivities.filter(a=>a.date.startsWith(month)).length;
+  const bActs = DB.baseActivities.filter(a=>a.date.startsWith(month)).length;
+  const meets = DB.meetings.filter(m=>m.date.startsWith(month)).length;
+  const honorsM = DB.honors.filter(h=>h.date.startsWith(month)).length;
+  const totalHours = sumHoursForMonth(month);
+  const income = DB.funding.filter(f=>f.type==='income').reduce((s,x)=>s+(+x.amount||0),0);
+  const expense = DB.funding.filter(f=>f.type==='expense').reduce((s,x)=>s+(+x.amount||0),0);
+
+  const recentActs = [...DB.mosqueActivities, ...DB.baseActivities]
+    .sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);
+
+  const todayMeets = DB.meetings.filter(m=>m.date===today);
+
+  return `
+  <div class="stats">
+    <div class="stat neu"><div class="i">🌟</div><div class="t">اعضای فعال</div><div class="v" style="color:var(--pri)">${num(actA)}</div></div>
+    <div class="stat neu"><div class="i">👥</div><div class="t">اعضای عادی</div><div class="v">${num(actR)}</div></div>
+    <div class="stat neu"><div class="i">🕌</div><div class="t">فعالیت مسجد (ماه)</div><div class="v">${num(mActs)}</div></div>
+    <div class="stat neu"><div class="i">🏴</div><div class="t">فعالیت پایگاه (ماه)</div><div class="v">${num(bActs)}</div></div>
+    <div class="stat neu"><div class="i">🤝</div><div class="t">جلسات (ماه)</div><div class="v">${num(meets)}</div></div>
+    <div class="stat neu"><div class="i">⏱️</div><div class="t">ساعات فعالیت (ماه)</div><div class="v">${num(totalHours)}</div></div>
+    <div class="stat neu"><div class="i">🏆</div><div class="t">افتخارات (ماه)</div><div class="v" style="color:var(--gold)">${num(honorsM)}</div></div>
+    <div class="stat neu"><div class="i">💰</div><div class="t">موجودی صندوق</div><div class="v" style="font-size:1.05rem">${money(income-expense)}</div></div>
+  </div>
+
+  ${todayMeets.length ? `
+  <div class="card neu" style="border:2px solid var(--pri)">
+    <h3>📌 جلسه امروز</h3>
+    ${todayMeets.map(m=>`<div class="hint"><b>${esc(m.title)}</b> — ${esc(m.topic)}<br>حاضرین: ${num(m.attendees.length)} نفر</div>`).join('')}
+  </div>` : ''}
+
+  <div class="card neu">
+    <h3>⚡ دسترسی سریع</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      ${can('editActivities')?`<button class="btn primary" onclick="addActivity('mosque')">＋ فعالیت مسجد</button>
+      <button class="btn primary" onclick="addActivity('base')">＋ فعالیت پایگاه</button>`:''}
+      ${can('editMeetings')?`<button class="btn" onclick="addMeeting()">🤝 ثبت جلسه</button>`:''}
+      ${can('editMembers')?`<button class="btn" onclick="go('members_active')">🌟 اعضای فعال</button>`:''}
+      ${can('viewReports')?`<button class="btn gold" onclick="go('report')">📈 گزارش ماهانه</button>`:''}
+    </div>
+  </div>
+
+  <div class="card neu">
+    <h3>🗓️ آخرین فعالیت‌ها</h3>
+    ${recentActs.length ? `<div class="hint">
+      ${recentActs.map(a=>`• <b>${esc(a.title)}</b> — ${faDate(a.date)} — ${num(a.participants.length)} نفر — ${num(a.hours)} ساعت`).join('<br>')}
+    </div>` : '<div class="empty">فعالیتی ثبت نشده</div>'}
+  </div>
+
+  <div class="card neu">
+    <h3>📊 درصد مشارکت اعضای فعال</h3>
+    ${activeMembers().slice(0,8).map(m=>{
+      const hrs = memberHoursInMonth(m.id, month);
+      const max = Math.max(1, ...activeMembers().map(x=>memberHoursInMonth(x.id, month)));
+      const pct = Math.min(100, Math.round(hrs/max*100));
+      return `<div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:4px">
+          <span>${esc(m.name)}</span><span>${num(hrs)} ساعت</span>
+        </div>
+        <div style="height:8px;border-radius:8px;background:var(--bg2);overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--pri),var(--pri2));border-radius:8px"></div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+/* ==========================================================
+   Members
+   ========================================================== */
+function vMembers(type){
+  const q = state.q.trim();
+  const list = DB.members.filter(m=>{
+    if(m.memberType!==type) return false;
+    if(!isActive(m)) return false;
+    if(!q) return true;
+    return (m.name+' '+m.mobile+' '+m.job+' '+m.education).includes(q);
+  }).sort((a,b)=>a.name.localeCompare(b.name,'fa'));
+
+  const editable = can('editMembers');
+  const title = type==='active' ? '🌟 اعضای فعال' : '👥 اعضای عادی';
+  const month = isoToday().slice(0,7);
+
+  const rows = list.map((m,i)=>`
+    <tr>
+      <td>${num(i+1)}</td>
+      <td><b>${esc(m.name)}</b></td>
+      <td dir="ltr">${esc(m.mobile)||'—'}</td>
+      <td>${esc(m.job||'—')}</td>
+      <td>${esc(m.education||'—')}</td>
+      <td>${num(memberHoursInMonth(m.id, month))}</td>
+      <td style="white-space:nowrap">
+        <button class="btn sm" onclick="viewMember('${m.id}')">👁️</button>
+        ${editable?`<button class="btn sm" onclick="editMember('${m.id}')">✏️</button>
+        <button class="btn sm bad" onclick="delMember('${m.id}')">🗑️</button>`:''}
+      </td>
+    </tr>`).join('');
+
+  return `
+  <div class="card neu">
+    <h3>${title} <span class="badge b-info">${num(list.length)} نفر</span></h3>
+    ${!editable?`<div class="lock-notice">فقط فرمانده و سوپر ادمین می‌توانند اعضا را مدیریت کنند.</div>`:''}
+    <div class="toolbar">
+      ${editable?`<button class="btn primary" onclick="addMember('${type}')">＋ عضو جدید</button>`:''}
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>#</th><th>نام</th><th>موبایل</th><th>شغل</th><th>تحصیلات</th><th>ساعات این ماه</th><th>عملیات</th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="7" class="empty">عضوی یافت نشد</td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function memberHoursInMonth(memberId, month){
+  let h = 0;
+  DB.mosqueActivities.forEach(a=>{ if(a.date.startsWith(month) && a.participants.includes(memberId)) h += Number(a.hours)||0; });
+  DB.baseActivities.forEach(a=>{ if(a.date.startsWith(month) && a.participants.includes(memberId)) h += Number(a.hours)||0; });
+  DB.meetings.forEach(m=>{ if(m.date.startsWith(month) && m.attendees.includes(memberId)) h += 2; });
+  return h;
+}
+function sumHoursForMonth(month){
+  return DB.members.reduce((s,m)=>s+memberHoursInMonth(m.id, month), 0);
+}
+
+function addMember(type){
+  if(!can('editMembers')) return;
+  const html = `<div class="grid2">
+    <label class="fld full"><span>نام و نام خانوادگی *</span><input name="name"></label>
+    <label class="fld"><span>موبایل</span><input name="mobile" dir="ltr"></label>
+    <label class="fld"><span>کد ملی</span><input name="nid" dir="ltr"></label>
+    <label class="fld"><span>تاریخ تولد</span><input name="birthDate" type="date"></label>
+    <label class="fld"><span>تاریخ عضویت</span><input name="joinDate" type="date" value="${isoToday()}"></label>
+    <label class="fld"><span>تحصیلات</span><input name="education"></label>
+    <label class="fld"><span>شغل</span><input name="job"></label>
+    <label class="fld full"><span>مهارت‌ها</span><input name="skills" placeholder="مثلاً: قرائت قرآن، خطاطی"></label>
+    <label class="fld full"><span>آدرس</span><textarea name="address" rows="2"></textarea></label>
+    <label class="fld full"><span><input type="checkbox" name="makeAccount"> ساخت حساب کاربری برای این عضو</span></label>
+  </div>`;
+  modal(`➕ افزودن ${type==='active'?'عضو فعال':'عضو عادی'}`, html, m=>{
+    const name = $('[name=name]',m).value.trim();
+    if(!name){ toast('نام الزامی','bad'); return false; }
+    const mem = {
+      id:uid(), name, mobile:$('[name=mobile]',m).value.trim(),
+      nid:$('[name=nid]',m).value.trim(), memberType:type,
+      birthDate:$('[name=birthDate]',m).value, joinDate:$('[name=joinDate]',m).value||isoToday(),
+      education:$('[name=education]',m).value.trim(), job:$('[name=job]',m).value.trim(),
+      skills:$('[name=skills]',m).value.trim(), address:$('[name=address]',m).value.trim(),
+      notes:'', active:true
+    };
+    DB.members.push(mem);
+    let info = '';
+    if($('[name=makeAccount]',m).checked){
+      const existing = new Set(DB.users.map(u=>u.username));
+      const base = mem.mobile || mem.nid || ('m'+Math.random().toString(36).slice(2,7));
+      let un = String(base).replace(/[^a-zA-Z0-9]/g,'') || 'm'+Math.random().toString(36).slice(2,6);
+      let n = 1; while(existing.has(un)){ un = String(base).replace(/[^a-zA-Z0-9]/g,'')+n; n++; }
+      const pw = mem.mobile.slice(-4) || '1234';
+      DB.users.push({id:uid(), username:un, password:pw, role:'member', name:mem.name, memberId:mem.id, active:true});
+      info = ` | کاربری: ${un} / ${pw}`;
+    }
+    save(); render(); toast('عضو اضافه شد'+info,'ok');
+  });
+}
+function editMember(id){
+  if(!can('editMembers')) return;
+  const m = DB.members.find(x=>x.id===id); if(!m) return;
+  const html = `<div class="grid2">
+    <label class="fld full"><span>نام</span><input name="name" value="${esc(m.name)}"></label>
+    <label class="fld"><span>موبایل</span><input name="mobile" value="${esc(m.mobile)}" dir="ltr"></label>
+    <label class="fld"><span>کد ملی</span><input name="nid" value="${esc(m.nid||'')}" dir="ltr"></label>
+    <label class="fld"><span>تاریخ تولد</span><input name="birthDate" type="date" value="${esc(m.birthDate||'')}"></label>
+    <label class="fld"><span>تاریخ عضویت</span><input name="joinDate" type="date" value="${esc(m.joinDate||'')}"></label>
+    <label class="fld"><span>تحصیلات</span><input name="education" value="${esc(m.education||'')}"></label>
+    <label class="fld"><span>شغل</span><input name="job" value="${esc(m.job||'')}"></label>
+    <label class="fld full"><span>مهارت‌ها</span><input name="skills" value="${esc(m.skills||'')}"></label>
+    <label class="fld full"><span>آدرس</span><textarea name="address" rows="2">${esc(m.address||'')}</textarea></label>
+    <label class="fld full"><span>یادداشت</span><textarea name="notes" rows="2">${esc(m.notes||'')}</textarea></label>
+  </div>`;
+  modal('✏️ ویرایش عضو', html, mm=>{
+    Object.assign(m, {
+      name:$('[name=name]',mm).value.trim()||m.name,
+      mobile:$('[name=mobile]',mm).value.trim(),
+      nid:$('[name=nid]',mm).value.trim(),
+      birthDate:$('[name=birthDate]',mm).value,
+      joinDate:$('[name=joinDate]',mm).value,
+      education:$('[name=education]',mm).value.trim(),
+      job:$('[name=job]',mm).value.trim(),
+      skills:$('[name=skills]',mm).value.trim(),
+      address:$('[name=address]',mm).value.trim(),
+      notes:$('[name=notes]',mm).value.trim()
+    });
+    save(); render(); toast('ویرایش شد');
+  });
+}
+function delMember(id){
+  if(!can('editMembers')) return;
+  const m = DB.members.find(x=>x.id===id); if(!m) return;
+  if(!confirm(`«${m.name}» حذف شود؟`)) return;
+  DB.members = DB.members.filter(x=>x.id!==id);
+  DB.users = DB.users.filter(u=>u.memberId!==id);
+  // Remove from participants
+  DB.mosqueActivities.forEach(a=>a.participants=a.participants.filter(x=>x!==id));
+  DB.baseActivities.forEach(a=>a.participants=a.participants.filter(x=>x!==id));
+  DB.meetings.forEach(m=>m.attendees=m.attendees.filter(x=>x!==id));
+  save(); render(); toast('حذف شد','warn');
+}
+function viewMember(id){
+  const m = getMember(id); if(!m) return;
+  const month = isoToday().slice(0,7);
+  const mActs = DB.mosqueActivities.filter(a=>a.participants.includes(id));
+  const bActs = DB.baseActivities.filter(a=>a.participants.includes(id));
+  const meets = DB.meetings.filter(x=>x.attendees.includes(id));
+  const honors = DB.honors.filter(h=>h.memberId===id);
+  const totalHrs = memberHoursInMonth(id, month);
+
+  const html = `
+    <div class="grid2">
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">نام</small><div><b>${esc(m.name)}</b></div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">نوع عضویت</small><div>${memberTypeBadge(m.memberType)}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">موبایل</small><div dir="ltr">${esc(m.mobile)||'—'}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تاریخ عضویت</small><div>${faDate(m.joinDate)}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تحصیلات</small><div>${esc(m.education||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">شغل</small><div>${esc(m.job||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">مهارت‌ها</small><div>${esc(m.skills||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">ساعات این ماه</small><div><b style="color:var(--pri)">${num(totalHrs)}</b> ساعت</div></div>
+    </div>
+    <h4 style="margin:14px 0 8px;font-size:.85rem">📊 آمار کلی</h4>
+    <div class="hint">
+      • فعالیت‌های مسجد: <b>${num(mActs.length)}</b> مورد<br>
+      • فعالیت‌های پایگاه: <b>${num(bActs.length)}</b> مورد<br>
+      • جلسات: <b>${num(meets.length)}</b> جلسه<br>
+      • افتخارات: <b>${num(honors.length)}</b> مورد
+    </div>
+    ${honors.length ? `<h4 style="margin:14px 0 8px;font-size:.85rem">🏆 افتخارات</h4>
+    <div class="hint">${honors.map(h=>`• ${esc(h.title)} — ${faDate(h.date)}`).join('<br>')}</div>` : ''}
+  `;
+  modal('👤 '+esc(m.name), html, null, '', true);
+}
+
+/* ==========================================================
+   Activities (Mosque / Base)
+   ========================================================== */
+const ACTIVITY_TYPES = {
+  mosque: ['نماز جماعت','جلسه قرآن کریم','جلسه دعای کمیل','هیئت هفتگی','مراسم دعای توسل','کلاس احکام','مراسم مناسبت مذهبی','اردوی مسجد','سایر'],
+  base: ['حلقه صالحین','جلسه هفتگی پایگاه','مسابقات فرهنگی','کارگاه آموزشی','اردوی جهادی','برنامه ورزشی','اردوی راهیان نور','بازدید','سایر']
+};
+
+function vActivities(kind){
+  const editable = can('editActivities');
+  const isMosque = kind==='mosque';
+  const list = (isMosque?DB.mosqueActivities:DB.baseActivities).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const title = isMosque ? '🕌 فعالیت‌های فرهنگی مسجد' : '🏴 فعالیت‌های فرهنگی پایگاه';
+  const icon = isMosque ? '🕌' : '🏴';
+
+  const rows = list.slice(0,100).map(a=>`
+    <tr>
+      <td>${faDate(a.date)}</td>
+      <td><b>${esc(a.title)}</b></td>
+      <td>${esc(a.location||'—')}</td>
+      <td>${num(a.hours)}</td>
+      <td><span class="badge b-info">${num(a.participants.length)}</span></td>
+      <td>${esc(a.by||'—')}</td>
+      <td>${editable?`<button class="btn sm" onclick="viewActivity('${kind}','${a.id}')">👁️</button>
+        <button class="btn sm bad" onclick="delActivity('${kind}','${a.id}')">🗑️</button>`:'—'}</td>
+    </tr>`).join('');
+
+  return `
+  <div class="card neu">
+    <h3>${title} <span class="badge b-info">${num(list.length)}</span></h3>
+    ${!editable?`<div class="lock-notice">فقط مسئولین می‌توانند فعالیت ثبت کنند.</div>`:''}
+    <div class="toolbar">
+      ${editable?`<button class="btn primary" onclick="addActivity('${kind}')">＋ ثبت فعالیت جدید</button>`:''}
+      <button class="btn" onclick="printActivities('${kind}')">🖨️ پرینت لیست</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>عنوان</th><th>مکان</th><th>ساعت</th><th>شرکت‌کننده</th><th>ثبت‌کننده</th><th>عملیات</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="7" class="empty">فعالیتی ثبت نشده</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function addActivity(kind){
+  if(!can('editActivities')) return;
+  const isMosque = kind==='mosque';
+  const types = ACTIVITY_TYPES[kind];
+  const members = DB.members.filter(isActive);
+
+  const html = `<div class="grid2">
+    <label class="fld full"><span>عنوان فعالیت *</span><input name="title" placeholder="مثلاً جلسه قرآن"></label>
+    <label class="fld"><span>نوع</span><select name="type">${types.map(t=>`<option>${t}</option>`).join('')}</select></label>
+    <label class="fld"><span>تاریخ</span><input name="date" type="date" value="${isoToday()}"></label>
+    <label class="fld"><span>مدت (ساعت)</span><input name="hours" type="number" min="0.5" step="0.5" value="2"></label>
+    <label class="fld"><span>مکان</span><input name="location" value="${isMosque?'مسجد الزهرا':'پایگاه الزهرا'}"></label>
+    <label class="fld full"><span>توضیحات</span><textarea name="notes" rows="2"></textarea></label>
+  </div>
+  <label class="fld" style="margin-top:12px"><span>شرکت‌کنندگان (${members.length} نفر)</span></label>
+  <div class="checklist" id="partList">
+    ${members.map(m=>`<label><input type="checkbox" value="${m.id}" data-name="${esc(m.name)}"> ${esc(m.name)} ${m.memberType==='active'?'🌟':''}</label>`).join('')}
+  </div>
+  <div style="margin-top:8px;display:flex;gap:8px">
+    <button type="button" class="btn sm" onclick="toggleAllParts(true)">✅ انتخاب همه</button>
+    <button type="button" class="btn sm" onclick="toggleAllParts(false)">❌ حذف همه</button>
+  </div>`;
+
+  modal(`➕ فعالیت ${isMosque?'مسجد':'پایگاه'}`, html, m=>{
+    const title = $('[name=title]',m).value.trim();
+    if(!title){ toast('عنوان الزامی','bad'); return false; }
+    const participants = $$('#partList input:checked',m).map(x=>x.value);
+    if(!participants.length){ toast('حداقل یک شرکت‌کننده انتخاب کنید','bad'); return false; }
+    const rec = {
+      id:uid(), title, type:$('[name=type]',m).value, date:$('[name=date]',m).value||isoToday(),
+      hours:+$('[name=hours]',m).value||1, location:$('[name=location]',m).value.trim(),
+      participants, notes:$('[name=notes]',m).value.trim(), by:CU.name
+    };
+    (isMosque?DB.mosqueActivities:DB.baseActivities).push(rec);
+    save(); render(); toast('ثبت شد','ok');
+  }, 'ثبت', true);
+}
+function toggleAllParts(on){
+  $$('#partList input').forEach(x=>x.checked=on);
+}
+
+function viewActivity(kind, id){
+  const isMosque = kind==='mosque';
+  const a = (isMosque?DB.mosqueActivities:DB.baseActivities).find(x=>x.id===id);
+  if(!a) return;
+  const html = `
+    <div class="grid2">
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">عنوان</small><div><b>${esc(a.title)}</b></div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تاریخ</small><div>${faDate(a.date)}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">مکان</small><div>${esc(a.location||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">مدت</small><div>${num(a.hours)} ساعت</div></div>
+    </div>
+    ${a.notes?`<div class="hint" style="margin-top:12px">${esc(a.notes)}</div>`:''}
+    <h4 style="margin:14px 0 8px;font-size:.85rem">👥 شرکت‌کنندگان (${num(a.participants.length)})</h4>
+    <div class="hint">${a.participants.map(id=>'• '+esc(memberName(id))).join('<br>') || '—'}</div>`;
+  modal('📋 '+esc(a.title), html, null, '', true);
+}
+function delActivity(kind, id){
+  if(!can('editActivities')) return;
+  if(!confirm('حذف شود؟')) return;
+  if(kind==='mosque') DB.mosqueActivities = DB.mosqueActivities.filter(a=>a.id!==id);
+  else DB.baseActivities = DB.baseActivities.filter(a=>a.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Meetings
+   ========================================================== */
+function vMeetings(){
+  const editable = can('editMeetings');
+  const list = DB.meetings.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const rows = list.slice(0,60).map(m=>`
+    <tr>
+      <td>${faDate(m.date)}</td>
+      <td><b>${esc(m.title)}</b></td>
+      <td>${esc(m.topic||'—')}</td>
+      <td><span class="badge b-info">${num(m.attendees.length)}</span></td>
+      <td>${esc(m.by||'—')}</td>
+      <td style="white-space:nowrap">
+        <button class="btn sm" onclick="viewMeeting('${m.id}')">👁️</button>
+        <button class="btn sm" onclick="printMeeting('${m.id}')">🖨️</button>
+        ${editable?`<button class="btn sm bad" onclick="delMeeting('${m.id}')">🗑️</button>`:''}
+      </td>
+    </tr>`).join('');
+
+  return `
+  <div class="card neu">
+    <h3>🤝 جلسات هفتگی پایگاه <span class="badge b-info">${num(list.length)}</span></h3>
+    ${!editable?`<div class="lock-notice">فقط مسئولین می‌توانند جلسه ثبت کنند.</div>`:''}
+    <div class="toolbar">
+      ${editable?`<button class="btn primary" onclick="addMeeting()">＋ ثبت جلسه جدید</button>`:''}
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>عنوان</th><th>موضوع</th><th>حاضرین</th><th>ثبت‌کننده</th><th>عملیات</th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="6" class="empty">جلسه‌ای ثبت نشده</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function addMeeting(){
+  if(!can('editMeetings')) return;
+  const members = DB.members.filter(isActive);
+  const html = `<div class="grid2">
+    <label class="fld full"><span>عنوان جلسه *</span><input name="title" value="جلسه هفتگی پایگاه الزهرا"></label>
+    <label class="fld"><span>تاریخ</span><input name="date" type="date" value="${isoToday()}"></label>
+    <label class="fld"><span>موضوع</span><input name="topic" placeholder="برنامه‌ریزی فعالیت‌ها"></label>
+    <label class="fld full"><span>یادداشت</span><textarea name="notes" rows="2"></textarea></label>
+  </div>
+  <label class="fld" style="margin-top:12px"><span>حاضرین جلسه (${members.length} نفر)</span></label>
+  <div class="checklist" id="meetList">
+    ${members.map(m=>`<label><input type="checkbox" value="${m.id}"> ${esc(m.name)} ${m.memberType==='active'?'🌟':''}</label>`).join('')}
+  </div>
+  <div style="margin-top:8px;display:flex;gap:8px">
+    <button type="button" class="btn sm" onclick="$$('#meetList input').forEach(x=>x.checked=true)">✅ همه</button>
+    <button type="button" class="btn sm" onclick="$$('#meetList input').forEach(x=>x.checked=false)">❌ هیچ‌کدام</button>
+  </div>`;
+  modal('➕ ثبت جلسه', html, m=>{
+    const title = $('[name=title]',m).value.trim();
+    if(!title){ toast('عنوان الزامی','bad'); return false; }
+    const attendees = $$('#meetList input:checked',m).map(x=>x.value);
+    DB.meetings.push({
+      id:uid(), title, date:$('[name=date]',m).value||isoToday(),
+      topic:$('[name=topic]',m).value.trim(), attendees, notes:$('[name=notes]',m).value.trim(), by:CU.name
+    });
+    save(); render(); toast('جلسه ثبت شد','ok');
+  }, 'ثبت', true);
+}
+
+function viewMeeting(id){
+  const m = DB.meetings.find(x=>x.id===id); if(!m) return;
+  const html = `
+    <div class="grid2">
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">عنوان</small><div><b>${esc(m.title)}</b></div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تاریخ</small><div>${faDate(m.date)}</div></div>
+    </div>
+    ${m.topic?`<div class="hint" style="margin-top:10px"><b>موضوع:</b> ${esc(m.topic)}</div>`:''}
+    ${m.notes?`<div class="hint"><b>یادداشت:</b> ${esc(m.notes)}</div>`:''}
+    <h4 style="margin:14px 0 8px;font-size:.85rem">👥 حاضرین (${num(m.attendees.length)})</h4>
+    <div class="hint">${m.attendees.map(id=>'• '+esc(memberName(id))).join('<br>') || '—'}</div>`;
+  modal('📋 '+esc(m.title), html, null, '', true);
+}
+function delMeeting(id){
+  if(!can('editMeetings')) return;
+  if(!confirm('حذف شود؟')) return;
+  DB.meetings = DB.meetings.filter(x=>x.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Attendance (list of meetings with attendance)
+   ========================================================== */
+function vAttendance(){
+  const month = isoToday().slice(0,7);
+  const meetings = DB.meetings.filter(m=>m.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));
+  const allMembers = DB.members.filter(isActive);
+
+  return `
+  <div class="card neu">
+    <h3>✅ حضور در جلسات ماه جاری</h3>
+    <div class="toolbar">
+      <label class="fld" style="min-width:180px"><span>ماه</span>
+        <select onchange="renderAttendanceForMonth(this.value)">${monthOptions(6)}</select></label>
+      <button class="btn primary" onclick="printMonthlyAttendance()">🖨️ پرینت گزارش ماهانه</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr><th>نام عضو</th><th>نوع</th>${meetings.map(m=>`<th>${faDate(m.date)}</th>`).join('')}<th>مجموع</th></tr>
+        </thead>
+        <tbody>
+          ${allMembers.map(mem=>{
+            let cnt=0;
+            const cols = meetings.map(m=>{
+              const present = m.attendees.includes(mem.id);
+              if(present) cnt++;
+              return `<td style="text-align:center">${present?'<span style="color:var(--ok);font-weight:700">✓</span>':'<span style="color:var(--muted)">—</span>'}</td>`;
+            }).join('');
+            return `<tr><td><b>${esc(mem.name)}</b></td><td>${memberTypeBadge(mem.memberType)}</td>${cols}<td><span class="badge b-pri">${num(cnt)}</span></td></tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+function renderAttendanceForMonth(month){
+  // re-render with selected month
+  const html = vAttendanceForMonth(month);
+  $('#view').innerHTML = html;
+}
+function vAttendanceForMonth(month){
+  const meetings = DB.meetings.filter(m=>m.date.startsWith(month)).sort((a,b)=>b.date.localeCompare(a.date));
+  const allMembers = DB.members.filter(isActive);
+  return `
+  <div class="card neu">
+    <h3>✅ حضور در جلسات ${faMonth(month)}</h3>
+    <div class="toolbar">
+      <label class="fld" style="min-width:180px"><span>ماه</span>
+        <select onchange="renderAttendanceForMonth(this.value)">${monthOptions(6).replace(`value="${month}"`,`value="${month}" selected`)}</select></label>
+      <button class="btn primary" onclick="printMonthlyAttendance('${month}')">🖨️ پرینت</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>نام</th><th>نوع</th>${meetings.map(m=>`<th>${faDate(m.date)}</th>`).join('')}<th>مجموع</th></tr></thead>
+        <tbody>
+          ${allMembers.map(mem=>{
+            let cnt=0;
+            const cols = meetings.map(m=>{
+              const p = m.attendees.includes(mem.id);
+              if(p) cnt++;
+              return `<td style="text-align:center">${p?'<b style="color:var(--ok)">✓</b>':'<span style="color:var(--muted)">—</span>'}</td>`;
+            }).join('');
+            return `<tr><td><b>${esc(mem.name)}</b></td><td>${memberTypeBadge(mem.memberType)}</td>${cols}<td><span class="badge b-pri">${num(cnt)}</span></td></tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ==========================================================
+   Honors
+   ========================================================== */
+function vHonors(){
+  const editable = can('editHonors');
+  const list = DB.honors.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const rows = list.map(h=>`
+    <tr>
+      <td>${faDate(h.date)}</td>
+      <td><b>${esc(memberName(h.memberId))}</b></td>
+      <td>${esc(h.title)}</td>
+      <td>${levelBadge(h.level)}</td>
+      <td>${editable?`<button class="btn sm bad" onclick="delHonor('${h.id}')">🗑️</button>`:'—'}</td>
+    </tr>`).join('');
+  return `
+  <div class="card neu">
+    <h3>🏆 افتخارات پایگاه <span class="badge b-info">${num(list.length)}</span></h3>
+    ${editable?`<div class="toolbar"><button class="btn primary" onclick="addHonor()">＋ ثبت افتخار</button></div>`:''}
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>عضو</th><th>عنوان</th><th>سطح</th><th></th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="5" class="empty">افتخاری ثبت نشده</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+function addHonor(){
+  if(!can('editHonors')) return;
+  const members = DB.members.filter(isActive);
+  const html = `<div class="grid2">
+    <label class="fld full"><span>عضو</span><select name="memberId">${members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('')}</select></label>
+    <label class="fld full"><span>عنوان افتخار *</span><input name="title"></label>
+    <label class="fld"><span>سطح</span><select name="level">
+      <option>پایگاه</option><option>ناحیه</option><option>شهرستان</option><option>استان</option><option>کشوری</option>
+    </select></label>
+    <label class="fld"><span>تاریخ</span><input name="date" type="date" value="${isoToday()}"></label>
+    <label class="fld full"><span>توضیحات</span><textarea name="description" rows="2"></textarea></label>
+  </div>`;
+  modal('➕ ثبت افتخار', html, m=>{
+    const title = $('[name=title]',m).value.trim();
+    if(!title){ toast('عنوان الزامی','bad'); return false; }
+    DB.honors.push({
+      id:uid(), memberId:$('[name=memberId]',m).value, title,
+      level:$('[name=level]',m).value, date:$('[name=date]',m).value||isoToday(),
+      description:$('[name=description]',m).value.trim(), by:CU.name
+    });
+    save(); render(); toast('ثبت شد');
+  });
+}
+function delHonor(id){
+  if(!can('editHonors')) return;
+  if(!confirm('حذف شود؟')) return;
+  DB.honors = DB.honors.filter(h=>h.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Monthly Report (PRINT)
+   ========================================================== */
+function vReport(){
+  if(!can('viewReports')) return '<div class="card neu"><div class="empty">دسترسی ندارید</div></div>';
+  const month = isoToday().slice(0,7);
+  return `
+  <div class="card neu">
+    <h3>📈 گزارش ماهانه فعالیت‌ها</h3>
+    <div class="toolbar">
+      <label class="fld" style="min-width:180px"><span>ماه</span>
+        <select id="repMonth">${monthOptions(6)}</select></label>
+      <label class="fld" style="min-width:150px"><span>نوع عضو</span>
+        <select id="repType">
+          <option value="all">همه اعضا</option>
+          <option value="active">فقط فعال</option>
+          <option value="regular">فقط عادی</option>
+        </select></label>
+      <button class="btn primary" onclick="previewMonthlyReport()">👁️ پیش‌نمایش</button>
+      <button class="btn gold" onclick="printMonthlyReport()">🖨️ پرینت / PDF</button>
+      <button class="btn" onclick="exportMonthlyReportExcel()">📊 خروجی اکسل</button>
+    </div>
+    <div class="hint" style="margin-top:6px">
+      📌 گزارش شامل ساعات فعالیت فرهنگی مسجد، ساعات فعالیت پایگاه و تعداد جلسات حضور هر عضو در ماه انتخابی است.
+    </div>
+  </div>
+  <div id="repPreview"></div>`;
+}
+
+function buildMonthlyReport(month, typeFilter){
+  const members = DB.members.filter(m=>isActive(m) && (typeFilter==='all' || m.memberType===typeFilter));
+  const rows = members.map(m=>{
+    const mActs = DB.mosqueActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id));
+    const bActs = DB.baseActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id));
+    const meets = DB.meetings.filter(x=>x.date.startsWith(month) && x.attendees.includes(m.id));
+    const mH = mActs.reduce((s,a)=>s+(Number(a.hours)||0),0);
+    const bH = bActs.reduce((s,a)=>s+(Number(a.hours)||0),0);
+    const meetH = meets.length * 2;
+    return {
+      member:m, mH, bH, meets:meets.length, meetH,
+      total:mH+bH+meetH,
+      mCount:mActs.length, bCount:bActs.length
+    };
+  }).sort((a,b)=>b.total-a.total || a.member.name.localeCompare(b.member.name,'fa'));
+  return rows;
+}
+
+function previewMonthlyReport(){
+  const month = $('#repMonth').value;
+  const type = $('#repType').value;
+  const rows = buildMonthlyReport(month, type);
+  const totalM = rows.reduce((s,r)=>s+r.mH, 0);
+  const totalB = rows.reduce((s,r)=>s+r.bH, 0);
+  const totalMeet = rows.reduce((s,r)=>s+r.meets, 0);
+  const grand = rows.reduce((s,r)=>s+r.total, 0);
+
+  const html = `
+    <div class="card neu">
+      <h3>👁️ پیش‌نمایش گزارش ${faMonth(month)} — ${num(rows.length)} عضو</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>#</th><th>نام</th><th>نوع</th><th>ساعات مسجد</th><th>ساعات پایگاه</th><th>جلسات</th><th>مجموع</th></tr></thead>
+          <tbody>
+            ${rows.map((r,i)=>`<tr>
+              <td>${num(i+1)}</td>
+              <td><b>${esc(r.member.name)}</b></td>
+              <td>${memberTypeBadge(r.member.memberType)}</td>
+              <td>${num(r.mH)}</td>
+              <td>${num(r.bH)}</td>
+              <td>${num(r.meets)}</td>
+              <td><span class="badge b-pri"><b>${num(r.total)}</b></span></td>
+            </tr>`).join('')}
+          </tbody>
+          <tfoot><tr style="background:#d1fae5;font-weight:700">
+            <td colspan="3">جمع کل</td>
+            <td>${num(totalM)}</td><td>${num(totalB)}</td><td>${num(totalMeet)}</td>
+            <td><span class="badge b-ok">${num(grand)}</span></td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </div>`;
+  $('#repPreview').innerHTML = html;
+}
+
+function printMonthlyReport(){
+  const month = ($('#repMonth')&&$('#repMonth').value) || isoToday().slice(0,7);
+  const type = ($('#repType')&&$('#repType').value) || 'all';
+  const rows = buildMonthlyReport(month, type);
+  const totalM = rows.reduce((s,r)=>s+r.mH, 0);
+  const totalB = rows.reduce((s,r)=>s+r.bH, 0);
+  const totalMeet = rows.reduce((s,r)=>s+r.meets, 0);
+  const grand = rows.reduce((s,r)=>s+r.total, 0);
+
+  const ps = $('#printSheet');
+  ps.innerHTML = `
+    <div class="ps-title">${esc(DB.settings.baseName)}</div>
+    <div class="ps-sub">${esc(DB.settings.mosqueName)} — سال ${esc(DB.settings.year)}</div>
+    <div class="ps-info">
+      <span><b>گزارش ماهانه فعالیت فرهنگی</b></span>
+      <span><b>ماه:</b> ${faMonth(month)}</span>
+      <span><b>تعداد اعضا:</b> ${num(rows.length)}</span>
+      <span><b>تاریخ صدور:</b> ${faDate(isoToday())}</span>
+    </div>
+    <table class="ps-table">
+      <thead>
+        <tr>
+          <th style="width:6%">#</th>
+          <th style="width:32%">نام و نام خانوادگی</th>
+          <th style="width:10%">نوع</th>
+          <th style="width:11%">ساعات مسجد</th>
+          <th style="width:11%">ساعات پایگاه</th>
+          <th style="width:8%">جلسات</th>
+          <th style="width:9%">ساعات جلسات</th>
+          <th style="width:11%">مجموع ساعات</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.map((r,i)=>`<tr>
+          <td>${toFa(i+1)}</td>
+          <td style="text-align:right">${esc(r.member.name)}</td>
+          <td>${r.member.memberType==='active'?'فعال':'عادی'}</td>
+          <td>${num(r.mH)}</td>
+          <td>${num(r.bH)}</td>
+          <td>${num(r.meets)}</td>
+          <td>${num(r.meetH)}</td>
+          <td><b>${num(r.total)}</b></td>
+        </tr>`).join('')}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">جمع کل</td>
+          <td>${num(totalM)}</td>
+          <td>${num(totalB)}</td>
+          <td>${num(totalMeet)}</td>
+          <td>${num(totalMeet*2)}</td>
+          <td><b>${num(grand)}</b></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="ps-legend">توضیح: هر جلسه هفتگی معادل ۲ ساعت فعالیت محاسبه می‌شود.</div>
+    <div class="ps-foot">
+      <div>مهر و امضای فرمانده پایگاه: <span class="ps-sign"></span></div>
+      <div>مهر و امضای مسئول فرهنگی: <span class="ps-sign"></span></div>
+    </div>`;
+  setTimeout(()=>window.print(), 50);
+}
+
+function printMonthlyAttendance(month){
+  if(!month) month = isoToday().slice(0,7);
+  const meetings = DB.meetings.filter(m=>m.date.startsWith(month)).sort((a,b)=>a.date.localeCompare(b.date));
+  const members = DB.members.filter(isActive);
+  const ps = $('#printSheet');
+  ps.innerHTML = `
+    <div class="ps-title">${esc(DB.settings.baseName)}</div>
+    <div class="ps-sub">گزارش حضور در جلسات — ${faMonth(month)}</div>
+    <div class="ps-info">
+      <span><b>تعداد جلسات:</b> ${num(meetings.length)}</span>
+      <span><b>تعداد اعضا:</b> ${num(members.length)}</span>
+      <span><b>تاریخ صدور:</b> ${faDate(isoToday())}</span>
+    </div>
+    <table class="ps-table">
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:24%">نام</th>
+          <th style="width:8%">نوع</th>
+          ${meetings.map(m=>`<th style="font-size:7pt">${faDate(m.date)}</th>`).join('')}
+          <th style="width:8%">مجموع</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${members.map((mem,i)=>{
+          let cnt = 0;
+          const cells = meetings.map(m=>{
+            const p = m.attendees.includes(mem.id);
+            if(p) cnt++;
+            return `<td>${p?'✓':'—'}</td>`;
+          }).join('');
+          return `<tr>
+            <td>${toFa(i+1)}</td>
+            <td style="text-align:right">${esc(mem.name)}</td>
+            <td>${mem.memberType==='active'?'فعال':'عادی'}</td>
+            ${cells}
+            <td><b>${num(cnt)}</b></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    <div class="ps-foot" style="margin-top:6mm">
+      <div>مهر و امضای فرمانده پایگاه: <span class="ps-sign"></span></div>
+      <div>تاریخ: ${faDate(isoToday())}</div>
+    </div>`;
+  setTimeout(()=>window.print(), 50);
+}
+
+function printMeeting(id){
+  const m = DB.meetings.find(x=>x.id===id); if(!m) return;
+  const ps = $('#printSheet');
+  ps.innerHTML = `
+    <div class="ps-title">${esc(DB.settings.baseName)}</div>
+    <div class="ps-sub">صورت‌جلسه — ${esc(m.title)}</div>
+    <div class="ps-info">
+      <span><b>تاریخ:</b> ${faDate(m.date)}</span>
+      <span><b>موضوع:</b> ${esc(m.topic||'—')}</span>
+      <span><b>حاضرین:</b> ${num(m.attendees.length)} نفر</span>
+    </div>
+    <table class="ps-table">
+      <thead><tr><th style="width:8%">#</th><th style="width:35%">نام</th><th style="width:15%">نوع</th><th>امضا</th></tr></thead>
+      <tbody>
+        ${m.attendees.map((id,i)=>`<tr>
+          <td>${toFa(i+1)}</td>
+          <td style="text-align:right">${esc(memberName(id))}</td>
+          <td>${getMember(id)?.memberType==='active'?'فعال':'عادی'}</td>
+          <td></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    ${m.notes?`<div style="font-size:9pt;margin-top:3mm"><b>یادداشت:</b> ${esc(m.notes)}</div>`:''}
+    <div class="ps-foot" style="margin-top:6mm">
+      <div>مهر پایگاه: <span class="ps-sign"></span></div>
+      <div>امضای مسئول جلسه: <span class="ps-sign"></span></div>
+    </div>`;
+  setTimeout(()=>window.print(), 50);
+}
+
+function printActivities(kind){
+  const isMosque = kind==='mosque';
+  const list = (isMosque?DB.mosqueActivities:DB.baseActivities).slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,60);
+  const ps = $('#printSheet');
+  ps.innerHTML = `
+    <div class="ps-title">${esc(DB.settings.baseName)}</div>
+    <div class="ps-sub">لیست فعالیت‌های ${isMosque?'مسجد':'پایگاه'}</div>
+    <div class="ps-info">
+      <span><b>تعداد:</b> ${num(list.length)}</span>
+      <span><b>تاریخ صدور:</b> ${faDate(isoToday())}</span>
+    </div>
+    <table class="ps-table">
+      <thead><tr><th style="width:6%">#</th><th style="width:14%">تاریخ</th><th>عنوان</th><th style="width:14%">مکان</th><th style="width:8%">ساعت</th><th style="width:10%">شرکت‌کننده</th></tr></thead>
+      <tbody>
+        ${list.map((a,i)=>`<tr>
+          <td>${toFa(i+1)}</td>
+          <td>${faDate(a.date)}</td>
+          <td style="text-align:right">${esc(a.title)}</td>
+          <td>${esc(a.location||'—')}</td>
+          <td>${num(a.hours)}</td>
+          <td>${num(a.participants.length)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+  setTimeout(()=>window.print(), 50);
+}
+
+function exportMonthlyReportExcel(){
+  if(typeof XLSX==='undefined'){ toast('کتابخانه اکسل موجود نیست','bad'); return; }
+  const month = $('#repMonth').value;
+  const type = $('#repType').value;
+  const rows = buildMonthlyReport(month, type);
+  const data = [['#','نام','نوع','ساعات مسجد','ساعات پایگاه','تعداد جلسات','ساعات جلسات','مجموع ساعات']];
+  rows.forEach((r,i)=>{
+    data.push([i+1, r.member.name, r.member.memberType==='active'?'فعال':'عادی', r.mH, r.bH, r.meets, r.meetH, r.total]);
+  });
+  const totalM = rows.reduce((s,r)=>s+r.mH,0);
+  const totalB = rows.reduce((s,r)=>s+r.bH,0);
+  const totalMeet = rows.reduce((s,r)=>s+r.meets,0);
+  const grand = rows.reduce((s,r)=>s+r.total,0);
+  data.push(['','جمع کل','',totalM,totalB,totalMeet,totalMeet*2,grand]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data), 'گزارش ماهانه');
+  XLSX.writeFile(wb, `report-${month}.xlsx`);
+  toast('اکسل دانلود شد');
+}
+
+/* ==========================================================
+   Funding (Finance)
+   ========================================================== */
+function vFunding(){
+  const editable = can('editFunding');
+  const list = DB.funding.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const income = list.filter(f=>f.type==='income').reduce((s,x)=>s+(+x.amount||0),0);
+  const expense = list.filter(f=>f.type==='expense').reduce((s,x)=>s+(+x.amount||0),0);
+  const rows = list.map(f=>`
+    <tr>
+      <td>${faDate(f.date)}</td>
+      <td><b>${esc(f.title)}</b></td>
+      <td><span class="badge ${f.type==='income'?'b-ok':'b-bad'}">${f.type==='income'?'درآمد':'هزینه'}</span></td>
+      <td>${money(f.amount)}</td>
+      <td>${esc(f.description||'—')}</td>
+      <td>${editable?`<button class="btn sm bad" onclick="delFund('${f.id}')">🗑️</button>`:'—'}</td>
+    </tr>`).join('');
+  return `
+  <div class="stats">
+    <div class="stat neu"><div class="i">💰</div><div class="t">جمع درآمد</div><div class="v" style="font-size:1.05rem;color:var(--ok)">${money(income)}</div></div>
+    <div class="stat neu"><div class="i">💸</div><div class="t">جمع هزینه</div><div class="v" style="font-size:1.05rem;color:var(--bad)">${money(expense)}</div></div>
+    <div class="stat neu"><div class="i">📊</div><div class="t">موجودی</div><div class="v" style="font-size:1.05rem">${money(income-expense)}</div></div>
+  </div>
+  <div class="card neu">
+    <h3>💰 مدیریت مالی پایگاه</h3>
+    ${editable?`<div class="toolbar"><button class="btn primary" onclick="addFund()">＋ ثبت تراکنش</button></div>`:''}
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>عنوان</th><th>نوع</th><th>مبلغ</th><th>توضیح</th><th></th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="6" class="empty">تراکنشی ثبت نشده</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+function addFund(){
+  if(!can('editFunding')) return;
+  const html = `<div class="grid2">
+    <label class="fld full"><span>عنوان *</span><input name="title"></label>
+    <label class="fld"><span>نوع</span><select name="type"><option value="income">درآمد</option><option value="expense">هزینه</option></select></label>
+    <label class="fld"><span>مبلغ (تومان)</span><input name="amount" type="number" min="0"></label>
+    <label class="fld"><span>تاریخ</span><input name="date" type="date" value="${isoToday()}"></label>
+    <label class="fld full"><span>توضیحات</span><textarea name="description" rows="2"></textarea></label>
+  </div>`;
+  modal('➕ ثبت تراکنش', html, m=>{
+    const title = $('[name=title]',m).value.trim();
+    const amount = +$('[name=amount]',m).value||0;
+    if(!title || amount<=0){ toast('عنوان و مبلغ الزامی','bad'); return false; }
+    DB.funding.push({
+      id:uid(), title, type:$('[name=type]',m).value, amount,
+      date:$('[name=date]',m).value||isoToday(),
+      description:$('[name=description]',m).value.trim(), by:CU.name
+    });
+    save(); render(); toast('ثبت شد');
+  });
+}
+function delFund(id){
+  if(!can('editFunding')) return;
+  if(!confirm('حذف شود؟')) return;
+  DB.funding = DB.funding.filter(f=>f.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Announcements
+   ========================================================== */
+function vAnnounce(){
+  const editable = can('editAnnounce');
+  const list = DB.announcements.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const items = list.map(a=>`
+    <div class="msg-item ${a.priority==='urgent'?'urgent':a.priority==='high'?'high':''}">
+      <div class="msg-head"><b>${esc(a.title)}</b>${priorityBadge(a.priority)}</div>
+      <div class="msg-body">${esc(a.body)}</div>
+      <div class="msg-meta" style="margin-top:8px"><span>${esc(a.by||'—')}</span><span>${faDate(a.date)}</span></div>
+      ${editable?`<div style="margin-top:8px"><button class="btn sm bad" onclick="delAnn('${a.id}')">🗑️</button></div>`:''}
+    </div>`).join('');
+  return `
+  ${editable?`
+  <div class="card neu">
+    <h3>📢 ثبت اطلاعیه</h3>
+    <div class="grid2">
+      <label class="fld"><span>عنوان</span><input id="annTitle"></label>
+      <label class="fld"><span>اولویت</span><select id="annPrio">
+        <option value="normal">عادی</option><option value="high">مهم</option><option value="urgent">فوری</option>
+      </select></label>
+      <label class="fld full"><span>متن</span><textarea id="annBody" rows="3"></textarea></label>
+    </div>
+    <div style="margin-top:14px"><button class="btn primary" onclick="addAnn()">＋ ثبت اطلاعیه</button></div>
+  </div>`:''}
+  <div class="card neu"><h3>📢 اطلاعیه‌ها <span class="badge b-info">${num(list.length)}</span></h3>
+    ${items || '<div class="empty">اطلاعیه‌ای وجود ندارد</div>'}
+  </div>`;
+}
+function addAnn(){
+  if(!can('editAnnounce')) return;
+  const title = $('#annTitle').value.trim();
+  const body = $('#annBody').value.trim();
+  if(!title||!body){ toast('عنوان و متن الزامی','bad'); return; }
+  DB.announcements.push({id:uid(), title, body, priority:$('#annPrio').value, date:isoToday(), by:CU.name});
+  save(); render(); toast('ثبت شد');
+}
+function delAnn(id){
+  if(!can('editAnnounce')) return;
+  if(!confirm('حذف شود؟')) return;
+  DB.announcements = DB.announcements.filter(a=>a.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Calendar
+   ========================================================== */
+function vCalendar(){
+  const editable = can('editCalendar');
+  const list = DB.events.slice().sort((a,b)=>a.date.localeCompare(b.date));
+  const rows = list.map(e=>`
+    <tr>
+      <td>${faDate(e.date)}</td>
+      <td><b>${esc(e.title)}</b></td>
+      <td><span class="badge b-info">${esc(e.type||'—')}</span></td>
+      <td>${editable?`<button class="btn sm bad" onclick="delEvent('${e.id}')">🗑️</button>`:'—'}</td>
+    </tr>`).join('');
+  return `
+  ${editable?`
+  <div class="card neu">
+    <h3>📅 افزودن رویداد</h3>
+    <div class="grid2">
+      <label class="fld full"><span>عنوان</span><input id="evTitle"></label>
+      <label class="fld"><span>تاریخ</span><input id="evDate" type="date" value="${isoToday()}"></label>
+      <label class="fld"><span>نوع</span><select id="evType">
+        <option>رویداد</option><option>مناسبت</option><option>اردو</option><option>جلسه</option><option>تعطیلی</option>
+      </select></label>
+    </div>
+    <div style="margin-top:14px"><button class="btn primary" onclick="addEvent()">＋ ثبت</button></div>
+  </div>`:''}
+  <div class="card neu">
+    <h3>📅 تقویم رویدادها</h3>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>تاریخ</th><th>عنوان</th><th>نوع</th><th></th></tr></thead>
+        <tbody>${rows || '<tr><td colspan="4" class="empty">رویدادی ثبت نشده</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+function addEvent(){
+  if(!can('editCalendar')) return;
+  const title = $('#evTitle').value.trim();
+  if(!title){ toast('عنوان الزامی','bad'); return; }
+  DB.events.push({id:uid(), title, date:$('#evDate').value||isoToday(), type:$('#evType').value, by:CU.name});
+  save(); render(); toast('ثبت شد');
+}
+function delEvent(id){
+  if(!can('editCalendar')) return;
+  if(!confirm('حذف شود؟')) return;
+  DB.events = DB.events.filter(e=>e.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Users (Superadmin only)
+   ========================================================== */
+function vUsers(){
+  if(!requireRole('superadmin','این بخش فقط برای سوپر ادمین')) {
+    return '<div class="card neu"><div class="empty">⛔ دسترسی ندارید</div></div>';
+  }
+  const list = DB.users.slice().sort((a,b)=>a.role.localeCompare(b.role));
+  const rows = list.map((u,i)=>`
+    <tr>
+      <td>${num(i+1)}</td>
+      <td>${esc(u.name)}</td>
+      <td dir="ltr">${esc(u.username)}</td>
+      <td dir="ltr" style="font-size:.72rem">${esc(u.password)}</td>
+      <td><span class="badge ${u.role==='superadmin'?'b-pri':u.role==='commander'?'b-ok':u.role==='cultural'?'b-info':'b-warn'}">${ROLES[u.role].label}</span></td>
+      <td>${u.memberId?esc(memberName(u.memberId)):'—'}</td>
+      <td>${u.active?'<span class="badge b-ok">فعال</span>':'<span class="badge b-bad">غیرفعال</span>'}</td>
+      <td>${u.id===CU.id?'<span class="badge b-mut">خودتان</span>':`
+        <button class="btn sm" onclick="editUser('${u.id}')">✏️</button>
+        <button class="btn sm ${u.active?'warn':'ok'}" onclick="toggleUser('${u.id}')">${u.active?'🚫':'✅'}</button>
+        <button class="btn sm bad" onclick="delUser('${u.id}')">🗑️</button>
+      `}</td>
+    </tr>`).join('');
+  return `
+  <div class="card neu">
+    <h3>🔐 مدیریت کاربران <span class="badge b-info">${num(list.length)}</span></h3>
+    <div class="lock-notice">فقط سوپر ادمین می‌تواند کاربران (از جمله فرمانده پایگاه) را تعریف و مدیریت کند.</div>
+    <div class="toolbar">
+      <button class="btn primary" onclick="addUser()">＋ کاربر جدید</button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>#</th><th>نام</th><th>کاربری</th><th>رمز</th><th>نقش</th><th>عضو مرتبط</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function addUser(){
+  if(!requireRole('superadmin')) return;
+  const html = `<div class="grid2">
+    <label class="fld"><span>نام نمایشی *</span><input name="name"></label>
+    <label class="fld"><span>نام کاربری *</span><input name="username" dir="ltr"></label>
+    <label class="fld"><span>رمز عبور *</span><input name="password"></label>
+    <label class="fld"><span>نقش</span><select name="role">
+      ${Object.entries(ROLES).filter(([k])=>k!=='superadmin').map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('')}
+    </select></label>
+    <label class="fld full" id="memWrap" style="display:none"><span>عضو مرتبط (برای نقش «عضو»)</span>
+      <select name="memberId"><option value="">—</option>${DB.members.map(m=>`<option value="${m.id}">${esc(m.name)} (${m.memberType==='active'?'فعال':'عادی'})</option>`).join('')}</select>
+    </label>
+  </div>`;
+  const m = modal('➕ کاربر جدید', html, mm=>{
+    const name = $('[name=name]',mm).value.trim();
+    const un = $('[name=username]',mm).value.trim();
+    const pw = $('[name=password]',mm).value;
+    if(!name||!un||!pw){ toast('همه فیلدها الزامی','bad'); return false; }
+    if(DB.users.some(x=>x.username===un)){ toast('نام کاربری تکراری','bad'); return false; }
+    const role = $('[name=role]',mm).value;
+    const u = {id:uid(), name, username:un, password:pw, role, active:true};
+    if(role==='member') u.memberId = $('[name=memberId]',mm).value;
+    DB.users.push(u);
+    save(); render(); toast('کاربر اضافه شد');
+  });
+  const sel = m.querySelector('[name=role]');
+  sel.addEventListener('change', ()=>{
+    m.querySelector('#memWrap').style.display = sel.value==='member' ? '' : 'none';
+  });
+}
+function editUser(id){
+  if(!requireRole('superadmin')) return;
+  const u = DB.users.find(x=>x.id===id); if(!u) return;
+  const html = `<div class="grid2">
+    <label class="fld"><span>نام</span><input name="name" value="${esc(u.name)}"></label>
+    <label class="fld"><span>نام کاربری</span><input name="username" value="${esc(u.username)}" dir="ltr"></label>
+    <label class="fld"><span>رمز</span><input name="password" value="${esc(u.password)}"></label>
+    <label class="fld"><span>نقش</span><select name="role" ${u.role==='superadmin'?'disabled':''}>
+      ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${k===u.role?'selected':''}>${v.label}</option>`).join('')}
+    </select></label>
+  </div>`;
+  modal('✏️ ویرایش کاربر', html, m=>{
+    const un = $('[name=username]',m).value.trim();
+    if(DB.users.some(x=>x.id!==id && x.username===un)){ toast('کاربری تکراری','bad'); return false; }
+    u.name = $('[name=name]',m).value.trim();
+    u.username = un;
+    u.password = $('[name=password]',m).value;
+    if(u.role!=='superadmin') u.role = $('[name=role]',m).value;
+    save(); render(); toast('ویرایش شد');
+  });
+}
+function toggleUser(id){
+  if(!requireRole('superadmin')) return;
+  const u = DB.users.find(x=>x.id===id); if(!u) return;
+  if(u.id===CU.id){ toast('حساب خودتان را نمی‌توانید غیرفعال کنید','bad'); return; }
+  u.active = !u.active;
+  save(); render(); toast(u.active?'فعال شد':'غیرفعال شد','warn');
+}
+function delUser(id){
+  if(!requireRole('superadmin')) return;
+  const u = DB.users.find(x=>x.id===id); if(!u) return;
+  if(u.id===CU.id){ toast('حساب خودتان را نمی‌توانید حذف کنید','bad'); return; }
+  if(!confirm(`کاربر «${u.name}» حذف شود؟`)) return;
+  DB.users = DB.users.filter(x=>x.id!==id);
+  save(); render(); toast('حذف شد','warn');
+}
+
+/* ==========================================================
+   Settings
+   ========================================================== */
+function vSettings(){
+  const isAdmin = can('editSettings');
+  return `
+  ${isAdmin?`
+  <div class="card neu">
+    <h3>⚙️ تنظیمات سامانه</h3>
+    <div class="grid2">
+      <label class="fld"><span>نام پایگاه</span><input id="setBase" value="${esc(DB.settings.baseName||'')}"></label>
+      <label class="fld"><span>نام مسجد</span><input id="setMosque" value="${esc(DB.settings.mosqueName||'')}"></label>
+      <label class="fld"><span>سال تحصیلی/فعالیت</span><input id="setYear" value="${esc(DB.settings.year||'')}"></label>
+      <label class="fld"><span>فرمانده پایگاه</span><input id="setCmd" value="${esc(DB.settings.commanderName||'')}"></label>
+      <label class="fld full"><span>آدرس</span><input id="setAddr" value="${esc(DB.settings.address||'')}"></label>
+      <label class="fld"><span>تلفن</span><input id="setPhone" value="${esc(DB.settings.phone||'')}" dir="ltr"></label>
+    </div>
+    <div style="margin-top:14px"><button class="btn primary" onclick="saveSettings()">💾 ذخیره</button></div>
+  </div>`:''}
+
+  <div class="card neu">
+    <h3>🛡️ تغییر رمز حساب خود</h3>
+    <div class="grid2">
+      <label class="fld"><span>نام کاربری</span><input value="${esc(CU.username)}" dir="ltr" disabled></label>
+      <label class="fld"><span>رمز جدید</span><input id="newPass" type="password"></label>
+    </div>
+    <div style="margin-top:14px"><button class="btn primary" onclick="changePass()">🔑 تغییر رمز</button></div>
+  </div>
+
+  ${can('resetDB')?`
+  <div class="card neu">
+    <h3>🗄️ پشتیبان‌گیری و بازنشانی</h3>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" onclick="exportJSON()">⬇️ پشتیبان JSON</button>
+      <label class="btn" style="cursor:pointer">⬆️ بازیابی JSON<input type="file" id="jsonIn" accept=".json" hidden></label>
+      <button class="btn bad" onclick="resetAll()">♻️ بازنشانی کامل</button>
+    </div>
+  </div>`:''}
+
+  <div class="card neu">
+    <h3>📊 آمار کلی سامانه</h3>
+    <div class="hint">
+      اعضای فعال: <b>${num(activeMembers().length)}</b> |
+      اعضای عادی: <b>${num(regularMembers().length)}</b> |
+      فعالیت مسجد: <b>${num(DB.mosqueActivities.length)}</b> |
+      فعالیت پایگاه: <b>${num(DB.baseActivities.length)}</b> |
+      جلسات: <b>${num(DB.meetings.length)}</b> |
+      افتخارات: <b>${num(DB.honors.length)}</b> |
+      کاربران: <b>${num(DB.users.length)}</b>
+    </div>
+  </div>`;
+}
+function saveSettings(){
+  if(!can('editSettings')) return;
+  DB.settings.baseName = $('#setBase').value.trim();
+  DB.settings.mosqueName = $('#setMosque').value.trim();
+  DB.settings.year = $('#setYear').value.trim();
+  DB.settings.commanderName = $('#setCmd').value.trim();
+  DB.settings.address = $('#setAddr').value.trim();
+  DB.settings.phone = $('#setPhone').value.trim();
+  save();
+  $('#brandName').textContent = DB.settings.baseName;
+  $('#brandYear').textContent = 'سال ' + DB.settings.year;
+  toast('ذخیره شد');
+  render();
+}
+function changePass(){
+  const np = $('#newPass').value;
+  if(!np){ toast('رمز الزامی','bad'); return; }
+  CU.password = np;
+  save(); toast('رمز تغییر کرد'); render();
+}
+function resetAll(){
+  if(!requireRole('superadmin')) return;
+  if(!confirm('همه داده‌ها پاک شود؟ (فقط سوپر ادمین باقی می‌ماند)')) return;
+  localStorage.removeItem(LS); localStorage.removeItem(SESSION);
+  DB = emptyDB(); save();
+  CU = null;
+  $('#loginScreen').style.display=''; $('#app').style.display='none';
+}
+
+/* ==========================================================
+   Member Views
+   ========================================================== */
+function vMemberDash(){
+  const m = getMember(CU.memberId);
+  if(!m) return '<div class="card neu"><div class="empty">حساب شما به عضوی متصل نیست</div></div>';
+  const month = isoToday().slice(0,7);
+  const hrs = memberHoursInMonth(m.id, month);
+  const mActs = DB.mosqueActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id)).length;
+  const bActs = DB.baseActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id)).length;
+  const meets = DB.meetings.filter(x=>x.date.startsWith(month) && x.attendees.includes(m.id)).length;
+  const honors = DB.honors.filter(h=>h.memberId===m.id).length;
+
+  const upcomingEvents = DB.events.filter(e=>e.date>=isoToday()).slice(0,4);
+
+  return `
+  <div class="stats">
+    <div class="stat neu"><div class="i">⏱️</div><div class="t">ساعات فعالیت این ماه</div><div class="v" style="color:var(--pri)">${num(hrs)}</div></div>
+    <div class="stat neu"><div class="i">🕌</div><div class="t">فعالیت مسجد</div><div class="v">${num(mActs)}</div></div>
+    <div class="stat neu"><div class="i">🏴</div><div class="t">فعالیت پایگاه</div><div class="v">${num(bActs)}</div></div>
+    <div class="stat neu"><div class="i">🤝</div><div class="t">جلسات</div><div class="v">${num(meets)}</div></div>
+    <div class="stat neu"><div class="i">🏆</div><div class="t">افتخارات</div><div class="v" style="color:var(--gold)">${num(honors)}</div></div>
+  </div>
+
+  <div class="card neu">
+    <h3>👋 خوش آمدید ${esc(m.name)}</h3>
+    <div class="hint">
+      نوع عضویت: ${memberTypeBadge(m.memberType)}<br>
+      تاریخ عضویت: ${faDate(m.joinDate)}<br>
+      عضویت شما در پایگاه: <b>${esc(DB.settings.baseName)}</b>
+    </div>
+  </div>
+
+  ${upcomingEvents.length?`
+  <div class="card neu">
+    <h3>📅 رویدادهای پیش رو</h3>
+    <div class="hint">${upcomingEvents.map(e=>`• <b>${esc(e.title)}</b> — ${faDate(e.date)}`).join('<br>')}</div>
+  </div>`:''}`;
+}
+
+function vMemberProfile(){
+  const m = getMember(CU.memberId);
+  if(!m) return '<div class="empty">—</div>';
+  return `
+  <div class="card neu">
+    <h3>👤 پروفایل من</h3>
+    <div class="grid2">
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">نام</small><div><b>${esc(m.name)}</b></div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">نوع عضویت</small><div>${memberTypeBadge(m.memberType)}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">موبایل</small><div dir="ltr">${esc(m.mobile)||'—'}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تاریخ عضویت</small><div>${faDate(m.joinDate)}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">تحصیلات</small><div>${esc(m.education||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">شغل</small><div>${esc(m.job||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">مهارت‌ها</small><div>${esc(m.skills||'—')}</div></div>
+      <div class="neu-in" style="padding:12px"><small style="color:var(--muted)">شماره حساب کاربری</small><div dir="ltr">${esc(CU.username)}</div></div>
+    </div>
+  </div>`;
+}
+
+function vMemberActivities(){
+  const m = getMember(CU.memberId);
+  if(!m) return '<div class="empty">—</div>';
+  const month = isoToday().slice(0,7);
+  const mActs = DB.mosqueActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id)).sort((a,b)=>b.date.localeCompare(a.date));
+  const bActs = DB.baseActivities.filter(a=>a.date.startsWith(month) && a.participants.includes(m.id)).sort((a,b)=>b.date.localeCompare(a.date));
+  const meets = DB.meetings.filter(x=>x.date.startsWith(month) && x.attendees.includes(m.id)).sort((a,b)=>b.date.localeCompare(a.date));
+
+  return `
+  <div class="card neu">
+    <h3>🕌 فعالیت‌های مسجد این ماه (${num(mActs.length)})</h3>
+    <div class="hint">${mActs.map(a=>`• <b>${esc(a.title)}</b> — ${faDate(a.date)} — ${num(a.hours)} ساعت`).join('<br>') || 'موردی ثبت نشده'}</div>
+  </div>
+  <div class="card neu">
+    <h3>🏴 فعالیت‌های پایگاه این ماه (${num(bActs.length)})</h3>
+    <div class="hint">${bActs.map(a=>`• <b>${esc(a.title)}</b> — ${faDate(a.date)} — ${num(a.hours)} ساعت`).join('<br>') || 'موردی ثبت نشده'}</div>
+  </div>
+  <div class="card neu">
+    <h3>🤝 جلسات این ماه (${num(meets.length)})</h3>
+    <div class="hint">${meets.map(x=>`• <b>${esc(x.title)}</b> — ${faDate(x.date)}`).join('<br>') || 'موردی ثبت نشده'}</div>
+  </div>`;
+}
+
+function vMemberAnnounce(){
+  const list = DB.announcements.slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const items = list.map(a=>`
+    <div class="msg-item ${a.priority==='urgent'?'urgent':a.priority==='high'?'high':''}">
+      <div class="msg-head"><b>${esc(a.title)}</b>${priorityBadge(a.priority)}</div>
+      <div class="msg-body">${esc(a.body)}</div>
+      <div class="msg-meta" style="margin-top:8px">${faDate(a.date)}</div>
+    </div>`).join('');
+  return `<div class="card neu"><h3>📢 اطلاعیه‌ها</h3>${items || '<div class="empty">اطلاعیه‌ای وجود ندارد</div>'}</div>`;
+}
+
+/* ==========================================================
+   Export / Import JSON
+   ========================================================== */
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `zahra-backup-${isoToday()}.json`;
+  a.click();
+  toast('پشتیبان دانلود شد');
+}
+
+document.addEventListener('change', e=>{
+  if(e.target && e.target.id === 'jsonIn'){
+    if(!requireRole('superadmin')) { e.target.value=''; return; }
+    const f = e.target.files[0]; if(!f) return;
+    const rd = new FileReader();
+    rd.onload = ev=>{
+      try{
+        const obj = JSON.parse(ev.target.result);
+        if(!obj.users) throw 0;
+        DB = obj; migrate(); save(); render(); toast('بازیابی انجام شد');
+      }catch(err){ toast('فایل معتبر نیست','bad'); }
+    };
+    rd.readAsText(f);
+    e.target.value = '';
+  }
+});
+
+/* ==========================================================
+   Init
+   ========================================================== */
+load();
+
+const savedSession = localStorage.getItem(SESSION);
+if(savedSession){
+  const u = DB.users.find(x=>x.id===savedSession && x.active);
+  if(u){ CU=u; showApp(); }
+} else {
+  $('#loginScreen').style.display='';
+  $('#app').style.display='none';
+}
+
+$('#q').addEventListener('input', e=>{
+  state.q = e.target.value;
+  state.page = 1;
+  if(CU) render();
+});
+</script>
+</body>
+</html>
